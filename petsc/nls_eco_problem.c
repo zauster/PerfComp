@@ -33,16 +33,16 @@ int main(int argc, char **argv)
     /* Jacobian matrix */
     /* Mat J; */
     PetscErrorCode ierr;
-    PetscInt its, n;
-    PetscScalar *xx;
+    PetscInt NumberIterations, n;
+    PetscScalar *guess, *result;
     PetscReal drts, rho, gamma;
     SNESConvergedReason reason;
     AppCtx params;
     double startTimer, endTimer;
-    PetscMPIInt size;
+    PetscMPIInt NumberProcesses;
 
     PetscInitialize(&argc, &argv, (char*) 0, help);
-    MPI_Comm_size(PETSC_COMM_WORLD, &size);
+    MPI_Comm_size(PETSC_COMM_WORLD, &NumberProcesses);
     
     /* TODO: set n, drts and rho from inputs */
     n = 20;
@@ -83,22 +83,22 @@ int main(int argc, char **argv)
     }
     params.beta = betas;
 
-
     /* Calculate the _inner_ sum of the production function */
     double prodSum = 0;
     for(int i = 0; i < n; i++) {
         prodSum += betas[i] * pow(xvec[i], rho);
     }
-  
-    /* Compute prices */
-    for(int i = 0; i < n; i++) {
-        prices[i] = -1 * betas[i] * pow(xvec[i], rho - 1) * gamma * pow(prodSum, drts/rho - 1);
-    }
-    params.prices = prices;
     params.Y = -1 * gamma * pow(prodSum, drts / rho);
 
+    prodSum = gamma * pow(prodSum, drts/rho - 1);
+
+    /* Compute prices */
+    for(int i = 0; i < n; i++) {
+        prices[i] = -1 * betas[i] * pow(xvec[i], rho - 1) * prodSum;
+    }
+    params.prices = prices;
+
 #ifdef DEBUG
-    // DEBUG output of the random values
     for(int i = 0; i < n; i++) {
         PetscPrintf(PETSC_COMM_WORLD,"%i: x = %f \tbeta = %f \tprice = %f\n", i, xvec[i], betas[i], prices[i]);
     }
@@ -126,14 +126,16 @@ int main(int argc, char **argv)
        Evaluate initial guess; then solve nonlinear system
        - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
     srand(time(NULL));
-    ierr  = VecGetArray(x,&xx); CHKERRQ(ierr);
+    ierr  = VecGetArray(x,&guess); CHKERRQ(ierr);
     for(int i = 0; i < n; i++) {
-        /* xx[i] = 110.0; */
-        xx[i] = (double) (rand() % 100) + 100.0;
-        /* PetscPrintf(PETSC_COMM_WORLD,"x[%i] = %f\n", i, xx[i]); */
+        /* guess[i] = 110.0; */
+        guess[i] = (double) (rand() % 100) + 100.0;
+#ifdef DEBUG
+        PetscPrintf(PETSC_COMM_WORLD, "x[%i] = %f\n", i, guess[i]);
+#endif
     }
-    xx[n] = 1.1;
-    ierr  = VecRestoreArray(x, &xx); CHKERRQ(ierr);
+    guess[n] = 1.1;
+    ierr  = VecRestoreArray(x, &guess); CHKERRQ(ierr);
 
     
     /* Create Jacobian matrix data structure */
@@ -154,53 +156,42 @@ int main(int argc, char **argv)
        - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
     ierr = SNESSetFromOptions(snes); CHKERRQ(ierr);
 
-
-    /*
-      Note: The user should initialize the vector, x, with the initial
-      guess for the nonlinear solver prior to calling SNESSolve(). In
-      particular, to employ an initial guess of zero, the user should
-      explicitly set this vector to zero by calling VecSet().
-    */
     ierr = SNESSolve(snes, NULL, x); CHKERRQ(ierr);
   
     /* ierr = VecView(x,PETSC_VIEWER_STDOUT_WORLD); CHKERRQ(ierr); */
-    ierr = SNESGetIterationNumber(snes, &its); CHKERRQ(ierr);
+    ierr = SNESGetIterationNumber(snes, &NumberIterations); CHKERRQ(ierr);
     ierr = SNESGetConvergedReason(snes, &reason); CHKERRQ(ierr);
 
     endTimer = MPI_Wtime();
     
     double residualNorm = 0.0;
-    ierr  = VecGetArray(x, &xx); CHKERRQ(ierr);
+    ierr  = VecGetArray(x, &result); CHKERRQ(ierr);
     for(int i = 0; i < n; i++) {
 #ifdef DEBUG
         ierr = PetscPrintf(PETSC_COMM_WORLD,
                            "%i: res = %f \torig = %f \tdiff = %f\n",
-                           i, xx[i], xvec[i], xx[i] - xvec[i]);
+                           i, result[i], xvec[i], result[i] - xvec[i]);
         CHKERRQ(ierr);
 #endif
-        residualNorm += abs(xx[i] - xvec[i]);
+        residualNorm += abs(result[i] - xvec[i]);
     }
 #ifdef DEBUG
-    ierr = PetscPrintf(PETSC_COMM_WORLD, "gamma = %f | %f\n", xx[n], gamma);
+    ierr = PetscPrintf(PETSC_COMM_WORLD, "gamma = %f | %f\n", result[n],
+            gamma);
     CHKERRQ(ierr);
 #endif
     
-    ierr  = VecRestoreArray(x,&xx); CHKERRQ(ierr);
-    
-    /*
-      Some systems computes a residual that is identically zero, thus
-      converging due to FNORM_ABS, others converge due to
-      FNORM_RELATIVE.  Here, we only report the reason if the
-      iteration did not converge so that the tests are reproducible.
-    */
+    ierr  = VecRestoreArray(x,&result); CHKERRQ(ierr);
     ierr = PetscPrintf(PETSC_COMM_WORLD,
-                       "%s, %f, %i, %D, %i, %f, ",
+                       "PETSc, %s, %f, %i, %D, %i, %f",
                        reason>0 ? "CONVERGED" : (char*) SNESConvergedReasons[reason],
                        residualNorm,
-                       n, its, size, endTimer - startTimer); CHKERRQ(ierr);
+                       n, NumberIterations, NumberProcesses,
+                       endTimer - startTimer);
+    CHKERRQ(ierr);
 
     for(int i = 1; i < argc; i++) {
-        printf("%s, ", argv[i]);
+        printf(", %s", argv[i]);
     }
     printf("\n");
 

@@ -1,0 +1,48 @@
+
+---
+output: github_document
+---
+
+```{r, echo = FALSE, results = "hide", messages = FALSE, warnings = FALSE}
+library(knitr)
+knitr::opts_chunk$set(cache = TRUE)
+options(xtable.comment = FALSE)
+library(rmarkdown)
+library(data.table)
+library(ggplot2)
+library(ggrepel)
+```
+
+Performance Comparisons of Nonlinear Solver
+====================
+
+This is part of an ongoing project at university, where I try to find
+efficient ways to solve large nonlinear systems. More exactly, large
+nonlinear systems that may originate from a CGE (Computable General
+Equilibrium) Model in economics.
+
+
+```{r readin, results='hide', message=FALSE, echo=FALSE}
+pcres <- fread("PerfComp_results.csv", fill = TRUE)
+pcres.names <- c("Program", "Convergence", "Residual", "Problemsize",
+                 "Iterations", "NumberProcesses", "Duration")
+setnames(pcres, paste0("V", 1:7), pcres.names)
+pcres[Program == "PETSc", Program := paste0(Program, "_", V14)]
+pcres <- pcres[Residual < 0.001, pcres.names, with = FALSE]
+
+pcres.mean <- pcres[, lapply(.SD, mean),
+                    by = .(Program, Problemsize, NumberProcesses),
+                    .SDcols = c("Duration", "Residual", "Iterations")]
+```
+
+```{r firstPlot, echo=FALSE, message=FALSE, results='hide', fig.width=8.5, fig.height=6}
+p <- ggplot(pcres.mean, aes(x = Problemsize, y = Duration))
+p <- p + geom_line(aes(colour = Program), size = 1)
+p <- p + geom_label_repel(data = pcres.mean[Problemsize == 3000, ],
+                          aes(label = Program), #fill = Program),
+                              fontface = "bold",
+                              color = "black")
+p <- p + ggtitle("Performance of different software implementations")
+p <- p + theme(legend.position = "bottom")
+p
+```

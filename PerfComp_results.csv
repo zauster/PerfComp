@@ -1,0 +1,175 @@
+PETSc, CONVERGED, 0.000000, 100, 8, 1, 0.091126, -snes_mf, -pc_type, none, -snes_max_it, 10000, -snes_type, newtonls, -m, 100
+PETSc, CONVERGED, 0.000000, 100, 5, 1, 0.042679, -snes_mf, -pc_type, none, -snes_max_it, 10000, -snes_type, newtontr, -m, 100
+PETSc, CONVERGED, 0.000000, 100, 742, 1, 0.584563, -snes_mf, -pc_type, none, -snes_max_it, 10000, -snes_type, anderson, -m, 100
+PETSc, CONVERGED, 752000.000000, 100, 232, 1, 0.123001, -snes_mf, -pc_type, none, -snes_max_it, 10000, -snes_type, qn, -m, 100
+R, CONVERGED, 0.0000004625202847, 100, 8, 1, 0.01811337471
+PETSc, CONVERGED, 0.000000, 500, 5, 1, 0.095099, -snes_mf, -pc_type, none, -snes_max_it, 10000, -snes_type, newtonls, -m, 500
+PETSc, CONVERGED, 0.000000, 500, 5, 1, 0.111060, -snes_mf, -pc_type, none, -snes_max_it, 10000, -snes_type, newtontr, -m, 500
+PETSc, CONVERGED, 45.000000, 500, 756, 1, 0.579054, -snes_mf, -pc_type, none, -snes_max_it, 10000, -snes_type, anderson, -m, 500
+PETSc, CONVERGED, 235193.000000, 500, 16, 1, 0.031534, -snes_mf, -pc_type, none, -snes_max_it, 10000, -snes_type, qn, -m, 500
+R, CONVERGED, 0.0000416433616, 500, 7, 1, 0.1055569649
+PETSc, CONVERGED, 0.000000, 1000, 5, 1, 0.098766, -snes_mf, -pc_type, none, -snes_max_it, 10000, -snes_type, newtonls, -m, 1000
+PETSc, CONVERGED, 0.000000, 1000, 5, 1, 0.118994, -snes_mf, -pc_type, none, -snes_max_it, 10000, -snes_type, newtontr, -m, 1000
+PETSc, CONVERGED, 150.000000, 1000, 637, 1, 0.486463, -snes_mf, -pc_type, none, -snes_max_it, 10000, -snes_type, anderson, -m, 1000
+PETSc, CONVERGED, 7239.000000, 1000, 7, 1, 0.015398, -snes_mf, -pc_type, none, -snes_max_it, 10000, -snes_type, qn, -m, 1000
+R, CONVERGED, 0.0001496588132, 1000, 7, 1, 0.3549323082
+PETSc, CONVERGED, 0.000000, 1500, 6, 1, 0.292657, -snes_mf, -pc_type, none, -snes_max_it, 10000, -snes_type, newtonls, -m, 1500
+PETSc, CONVERGED, 0.000000, 1500, 6, 1, 0.248619, -snes_mf, -pc_type, none, -snes_max_it, 10000, -snes_type, newtontr, -m, 1500
+PETSc, CONVERGED, 20365.000000, 1500, 56, 1, 0.109104, -snes_mf, -pc_type, none, -snes_max_it, 10000, -snes_type, anderson, -m, 1500
+PETSc, CONVERGED, 13161.000000, 1500, 11, 1, 0.029512, -snes_mf, -pc_type, none, -snes_max_it, 10000, -snes_type, qn, -m, 1500
+R, CONVERGED, 0.00001282802171, 1500, 8, 1, 0.8886275291
+PETSc, CONVERGED, 0.000000, 2000, 7, 1, 0.164739, -snes_mf, -pc_type, none, -snes_max_it, 10000, -snes_type, newtonls, -m, 2000
+PETSc, CONVERGED, 0.000000, 2000, 6, 1, 0.154377, -snes_mf, -pc_type, none, -snes_max_it, 10000, -snes_type, newtontr, -m, 2000
+PETSc, CONVERGED, 86868126.000000, 2000, 278, 1, 0.306628, -snes_mf, -pc_type, none, -snes_max_it, 10000, -snes_type, anderson, -m, 2000
+PETSc, CONVERGED, 39144.000000, 2000, 2, 1, 0.013916, -snes_mf, -pc_type, none, -snes_max_it, 10000, -snes_type, qn, -m, 2000
+R, CONVERGED, 0.000001867145851, 2000, 7, 1, 2.851100683
+PETSc, CONVERGED, 0.000000, 2500, 6, 1, 0.176250, -snes_mf, -pc_type, none, -snes_max_it, 10000, -snes_type, newtonls, -m, 2500
+PETSc, CONVERGED, 0.000000, 2500, 6, 1, 0.173405, -snes_mf, -pc_type, none, -snes_max_it, 10000, -snes_type, newtontr, -m, 2500
+PETSc, CONVERGED, 2929.000000, 2500, 155, 1, 0.187633, -snes_mf, -pc_type, none, -snes_max_it, 10000, -snes_type, anderson, -m, 2500
+PETSc, CONVERGED, 77151.000000, 2500, 2, 1, 0.013672, -snes_mf, -pc_type, none, -snes_max_it, 10000, -snes_type, qn, -m, 2500
+R, CONVERGED, 0.0002058362695, 2500, 7, 1, 2.804371357
+PETSc, CONVERGED, 0.000000, 3000, 7, 1, 0.556027, -snes_mf, -pc_type, none, -snes_max_it, 10000, -snes_type, newtonls, -m, 3000
+PETSc, CONVERGED, 11.000000, 3000, 12, 1, 1.250341, -snes_mf, -pc_type, none, -snes_max_it, 10000, -snes_type, newtontr, -m, 3000
+PETSc, CONVERGED, 537.000000, 3000, 646, 1, 0.589457, -snes_mf, -pc_type, none, -snes_max_it, 10000, -snes_type, anderson, -m, 3000
+PETSc, CONVERGED, 41177.000000, 3000, 2, 1, 0.005841, -snes_mf, -pc_type, none, -snes_max_it, 10000, -snes_type, qn, -m, 3000
+R, CONVERGED, 0.0003817789406, 3000, 7, 1, 4.462518215
+PETSc, CONVERGED, 0.000000, 100, 5, 1, 0.102535, -snes_mf, -pc_type, none, -snes_max_it, 10000, -snes_type, newtonls, -m, 100
+PETSc, CONVERGED, 0.000000, 100, 5, 1, 0.088474, -snes_mf, -pc_type, none, -snes_max_it, 10000, -snes_type, newtontr, -m, 100
+PETSc, CONVERGED, 253262245.000000, 100, 855, 1, 0.700213, -snes_mf, -pc_type, none, -snes_max_it, 10000, -snes_type, anderson, -m, 100
+PETSc, CONVERGED, 188147.000000, 100, 14, 1, 0.019259, -snes_mf, -pc_type, none, -snes_max_it, 10000, -snes_type, qn, -m, 100
+R, CONVERGED, 0.000002867688138, 100, 11, 1, 0.01887011528
+PETSc, CONVERGED, 0.000000, 500, 5, 1, 0.143002, -snes_mf, -pc_type, none, -snes_max_it, 10000, -snes_type, newtonls, -m, 500
+PETSc, CONVERGED, 0.000000, 500, 7, 1, 0.299505, -snes_mf, -pc_type, none, -snes_max_it, 10000, -snes_type, newtontr, -m, 500
+PETSc, CONVERGED, 55.000000, 500, 925, 1, 0.621690, -snes_mf, -pc_type, none, -snes_max_it, 10000, -snes_type, anderson, -m, 500
+PETSc, CONVERGED, 5043.000000, 500, 9, 1, 0.016020, -snes_mf, -pc_type, none, -snes_max_it, 10000, -snes_type, qn, -m, 500
+R, CONVERGED, 0.00009762887393, 500, 7, 1, 0.105120182
+PETSc, CONVERGED, 0.000000, 1000, 5, 1, 0.097127, -snes_mf, -pc_type, none, -snes_max_it, 10000, -snes_type, newtonls, -m, 1000
+PETSc, CONVERGED, 0.000000, 1000, 6, 1, 0.130261, -snes_mf, -pc_type, none, -snes_max_it, 10000, -snes_type, newtontr, -m, 1000
+PETSc, CONVERGED, 98.000000, 1000, 539, 1, 0.433508, -snes_mf, -pc_type, none, -snes_max_it, 10000, -snes_type, anderson, -m, 1000
+PETSc, CONVERGED, 8358.000000, 1000, 8, 1, 0.017431, -snes_mf, -pc_type, none, -snes_max_it, 10000, -snes_type, qn, -m, 1000
+R, CONVERGED, 0.00002639134862, 1000, 8, 1, 0.3874030113
+PETSc, CONVERGED, 0.000000, 1500, 6, 1, 0.144890, -snes_mf, -pc_type, none, -snes_max_it, 10000, -snes_type, newtonls, -m, 1500
+PETSc, CONVERGED, 0.000000, 1500, 6, 1, 0.200858, -snes_mf, -pc_type, none, -snes_max_it, 10000, -snes_type, newtontr, -m, 1500
+PETSc, CONVERGED, 121.000000, 1500, 1051, 1, 0.727724, -snes_mf, -pc_type, none, -snes_max_it, 10000, -snes_type, anderson, -m, 1500
+PETSc, CONVERGED, 14025.000000, 1500, 8, 1, 0.017387, -snes_mf, -pc_type, none, -snes_max_it, 10000, -snes_type, qn, -m, 1500
+R, CONVERGED, 0.00002932859159, 1500, 20, 1, 1.448991299
+PETSc, CONVERGED, 1.000000, 2000, 5, 1, 0.258858, -snes_mf, -pc_type, none, -snes_max_it, 10000, -snes_type, newtonls, -m, 2000
+PETSc, CONVERGED, 0.000000, 2000, 6, 1, 0.428292, -snes_mf, -pc_type, none, -snes_max_it, 10000, -snes_type, newtontr, -m, 2000
+PETSc, CONVERGED, 131.000000, 2000, 389, 1, 0.325516, -snes_mf, -pc_type, none, -snes_max_it, 10000, -snes_type, anderson, -m, 2000
+PETSc, CONVERGED, 64035.000000, 2000, 2, 1, 0.016687, -snes_mf, -pc_type, none, -snes_max_it, 10000, -snes_type, qn, -m, 2000
+R, CONVERGED, 0.0003038658032, 2000, 7, 1, 1.720673561
+PETSc, CONVERGED, 0.000000, 2500, 6, 1, 0.150755, -snes_mf, -pc_type, none, -snes_max_it, 10000, -snes_type, newtonls, -m, 2500
+PETSc, CONVERGED, 0.000000, 2500, 6, 1, 0.187915, -snes_mf, -pc_type, none, -snes_max_it, 10000, -snes_type, newtontr, -m, 2500
+PETSc, CONVERGED, 249.000000, 2500, 1017, 1, 0.911888, -snes_mf, -pc_type, none, -snes_max_it, 10000, -snes_type, anderson, -m, 2500
+PETSc, CONVERGED, 34005.000000, 2500, 2, 1, 0.012348, -snes_mf, -pc_type, none, -snes_max_it, 10000, -snes_type, qn, -m, 2500
+R, CONVERGED, 0.0001905860398, 2500, 7, 1, 2.834291935
+PETSc, CONVERGED, 0.000000, 3000, 6, 1, 0.223004, -snes_mf, -pc_type, none, -snes_max_it, 10000, -snes_type, newtonls, -m, 3000
+PETSc, CONVERGED, 0.000000, 3000, 6, 1, 0.402861, -snes_mf, -pc_type, none, -snes_max_it, 10000, -snes_type, newtontr, -m, 3000
+PETSc, CONVERGED, 864.000000, 3000, 643, 1, 0.527711, -snes_mf, -pc_type, none, -snes_max_it, 10000, -snes_type, anderson, -m, 3000
+PETSc, CONVERGED, 96567.000000, 3000, 2, 1, 0.010065, -snes_mf, -pc_type, none, -snes_max_it, 10000, -snes_type, qn, -m, 3000
+R, CONVERGED, 0.00004502523403, 3000, 8, 1, 5.350328445
+PETSc, CONVERGED, 0.000000, 100, 19, 1, 0.143840, -snes_mf, -pc_type, none, -snes_max_it, 10000, -snes_type, newtonls, -m, 100
+PETSc, CONVERGED, 0.000000, 100, 5, 1, 0.110454, -snes_mf, -pc_type, none, -snes_max_it, 10000, -snes_type, newtontr, -m, 100
+PETSc, CONVERGED, 2014.000000, 100, 18, 1, 0.033966, -snes_mf, -pc_type, none, -snes_max_it, 10000, -snes_type, anderson, -m, 100
+PETSc, CONVERGED, 2342925.000000, 100, 25, 1, 0.021256, -snes_mf, -pc_type, none, -snes_max_it, 10000, -snes_type, qn, -m, 100
+R, CONVERGED, 0.000002721005903, 100, 14, 1, 0.01968431473
+PETSc, CONVERGED, 0.000000, 500, 5, 1, 0.058094, -snes_mf, -pc_type, none, -snes_max_it, 10000, -snes_type, newtonls, -m, 500
+PETSc, CONVERGED, 0.000000, 500, 5, 1, 0.096987, -snes_mf, -pc_type, none, -snes_max_it, 10000, -snes_type, newtontr, -m, 500
+PETSc, CONVERGED, 2492133250.000000, 500, 342, 1, 0.305557, -snes_mf, -pc_type, none, -snes_max_it, 10000, -snes_type, anderson, -m, 500
+PETSc, CONVERGED, 3894.000000, 500, 8, 1, 0.023332, -snes_mf, -pc_type, none, -snes_max_it, 10000, -snes_type, qn, -m, 500
+R, CONVERGED, 0.0000007555365718, 500, 7, 1, 0.1662957668
+PETSc, CONVERGED, 0.000000, 1000, 5, 1, 0.065425, -snes_mf, -pc_type, none, -snes_max_it, 10000, -snes_type, newtonls, -m, 1000
+PETSc, CONVERGED, 0.000000, 1000, 5, 1, 0.110692, -snes_mf, -pc_type, none, -snes_max_it, 10000, -snes_type, newtontr, -m, 1000
+PETSc, CONVERGED, 131.000000, 1000, 489, 1, 0.374050, -snes_mf, -pc_type, none, -snes_max_it, 10000, -snes_type, anderson, -m, 1000
+PETSc, CONVERGED, 7150.000000, 1000, 9, 1, 0.025648, -snes_mf, -pc_type, none, -snes_max_it, 10000, -snes_type, qn, -m, 1000
+R, CONVERGED, 0.0001041493644, 1000, 7, 1, 0.3583295345
+PETSc, DIVERGED_FUNCTION_COUNT, 5683.000000, 1500, 79, 1, 1.694514, -snes_mf, -pc_type, none, -snes_max_it, 10000, -snes_type, newtonls, -m, 1500
+PETSc, CONVERGED, 0.000000, 1500, 9, 1, 0.160705, -snes_mf, -pc_type, none, -snes_max_it, 10000, -snes_type, newtontr, -m, 1500
+PETSc, CONVERGED, 153.000000, 1500, 574, 1, 0.479834, -snes_mf, -pc_type, none, -snes_max_it, 10000, -snes_type, anderson, -m, 1500
+PETSc, CONVERGED, 20245.000000, 1500, 2, 1, 0.015715, -snes_mf, -pc_type, none, -snes_max_it, 10000, -snes_type, qn, -m, 1500
+R, CONVERGED, 0.0001401783327, 1500, 7, 1, 0.8446035385
+PETSc, CONVERGED, 0.000000, 2000, 6, 1, 0.154261, -snes_mf, -pc_type, none, -snes_max_it, 10000, -snes_type, newtonls, -m, 2000
+PETSc, CONVERGED, 0.000000, 2000, 6, 1, 0.294632, -snes_mf, -pc_type, none, -snes_max_it, 10000, -snes_type, newtontr, -m, 2000
+PETSc, CONVERGED, 1038064328.000000, 2000, 526, 1, 0.479278, -snes_mf, -pc_type, none, -snes_max_it, 10000, -snes_type, anderson, -m, 2000
+PETSc, CONVERGED, 65183.000000, 2000, 2, 1, 0.011979, -snes_mf, -pc_type, none, -snes_max_it, 10000, -snes_type, qn, -m, 2000
+R, CONVERGED, 0.000006273511589, 2000, 8, 1, 1.811028004
+PETSc, CONVERGED, 0.000000, 2500, 6, 1, 0.305114, -snes_mf, -pc_type, none, -snes_max_it, 10000, -snes_type, newtonls, -m, 2500
+PETSc, CONVERGED, 0.000000, 2500, 7, 1, 0.390089, -snes_mf, -pc_type, none, -snes_max_it, 10000, -snes_type, newtontr, -m, 2500
+PETSc, CONVERGED, 498.000000, 2500, 492, 1, 0.444553, -snes_mf, -pc_type, none, -snes_max_it, 10000, -snes_type, anderson, -m, 2500
+PETSc, CONVERGED, 34067.000000, 2500, 2, 1, 0.006392, -snes_mf, -pc_type, none, -snes_max_it, 10000, -snes_type, qn, -m, 2500
+R, CONVERGED, 0.000007672517387, 2500, 8, 1, 2.963256598
+PETSc, CONVERGED, 0.000000, 3000, 6, 1, 0.510871, -snes_mf, -pc_type, none, -snes_max_it, 10000, -snes_type, newtonls, -m, 3000
+PETSc, CONVERGED, 0.000000, 3000, 6, 1, 0.379757, -snes_mf, -pc_type, none, -snes_max_it, 10000, -snes_type, newtontr, -m, 3000
+PETSc, CONVERGED, 464.000000, 3000, 548, 1, 0.518774, -snes_mf, -pc_type, none, -snes_max_it, 10000, -snes_type, anderson, -m, 3000
+PETSc, CONVERGED, 96449.000000, 3000, 2, 1, 0.015222, -snes_mf, -pc_type, none, -snes_max_it, 10000, -snes_type, qn, -m, 3000
+R, CONVERGED, 0.00003006267626, 3000, 20, 1, 6.962896824
+PETSc, CONVERGED, 0.000000, 100, 5, 1, 0.055775, -snes_mf, -pc_type, none, -snes_max_it, 10000, -snes_type, newtonls, -m, 100
+PETSc, CONVERGED, 1558.000000, 100, 47, 1, 0.104313, -snes_mf, -pc_type, none, -snes_max_it, 10000, -snes_type, newtontr, -m, 100
+PETSc, CONVERGED, 3092.000000, 100, 24, 1, 0.046300, -snes_mf, -pc_type, none, -snes_max_it, 10000, -snes_type, anderson, -m, 100
+PETSc, CONVERGED, 270373.000000, 100, 122, 1, 0.115391, -snes_mf, -pc_type, none, -snes_max_it, 10000, -snes_type, qn, -m, 100
+R, CONVERGED, 0.000009494843978, 100, 7, 1, 0.01730394363
+PETSc, CONVERGED, 0.000000, 500, 5, 1, 0.040259, -snes_mf, -pc_type, none, -snes_max_it, 10000, -snes_type, newtonls, -m, 500
+PETSc, CONVERGED, 0.000000, 500, 5, 1, 0.068570, -snes_mf, -pc_type, none, -snes_max_it, 10000, -snes_type, newtontr, -m, 500
+PETSc, CONVERGED, 7364.000000, 500, 30, 1, 0.049358, -snes_mf, -pc_type, none, -snes_max_it, 10000, -snes_type, anderson, -m, 500
+PETSc, CONVERGED, 8131.000000, 500, 7, 1, 0.011212, -snes_mf, -pc_type, none, -snes_max_it, 10000, -snes_type, qn, -m, 500
+R, CONVERGED, 0.000001186378732, 500, 74, 1, 0.4414329529
+PETSc, CONVERGED, 0.000000, 1000, 5, 1, 0.083325, -snes_mf, -pc_type, none, -snes_max_it, 10000, -snes_type, newtonls, -m, 1000
+PETSc, CONVERGED, 0.000000, 1000, 6, 1, 0.094332, -snes_mf, -pc_type, none, -snes_max_it, 10000, -snes_type, newtontr, -m, 1000
+PETSc, CONVERGED, 1055430921.000000, 1000, 380, 1, 0.353719, -snes_mf, -pc_type, none, -snes_max_it, 10000, -snes_type, anderson, -m, 1000
+PETSc, CONVERGED, 13132.000000, 1000, 8, 1, 0.015250, -snes_mf, -pc_type, none, -snes_max_it, 10000, -snes_type, qn, -m, 1000
+R, CONVERGED, 0.00009437254929, 1000, 7, 1, 0.3510253429
+PETSc, CONVERGED, 0.000000, 1500, 5, 1, 0.100453, -snes_mf, -pc_type, none, -snes_max_it, 10000, -snes_type, newtonls, -m, 1500
+PETSc, CONVERGED, 0.000000, 1500, 5, 1, 0.093896, -snes_mf, -pc_type, none, -snes_max_it, 10000, -snes_type, newtontr, -m, 1500
+PETSc, CONVERGED, 15164.000000, 1500, 40, 1, 0.079580, -snes_mf, -pc_type, none, -snes_max_it, 10000, -snes_type, anderson, -m, 1500
+PETSc, CONVERGED, 21980.000000, 1500, 2, 1, 0.017655, -snes_mf, -pc_type, none, -snes_max_it, 10000, -snes_type, qn, -m, 1500
+R, CONVERGED, 0.000005751997745, 1500, 8, 1, 0.880358696
+PETSc, CONVERGED, 0.000000, 2000, 5, 1, 0.098154, -snes_mf, -pc_type, none, -snes_max_it, 10000, -snes_type, newtonls, -m, 2000
+PETSc, CONVERGED, 0.000000, 2000, 5, 1, 0.111490, -snes_mf, -pc_type, none, -snes_max_it, 10000, -snes_type, newtontr, -m, 2000
+PETSc, CONVERGED, 337.000000, 2000, 499, 1, 0.422799, -snes_mf, -pc_type, none, -snes_max_it, 10000, -snes_type, anderson, -m, 2000
+PETSc, CONVERGED, 34225.000000, 2000, 2, 1, 0.006177, -snes_mf, -pc_type, none, -snes_max_it, 10000, -snes_type, qn, -m, 2000
+R, CONVERGED, 0.0002500767262, 2000, 7, 1, 1.706468582
+PETSc, CONVERGED, 0.000000, 2500, 6, 1, 0.168598, -snes_mf, -pc_type, none, -snes_max_it, 10000, -snes_type, newtonls, -m, 2500
+PETSc, CONVERGED, 0.000000, 2500, 6, 1, 0.213784, -snes_mf, -pc_type, none, -snes_max_it, 10000, -snes_type, newtontr, -m, 2500
+PETSc, CONVERGED, 4041747721.000000, 2500, 202, 1, 0.237906, -snes_mf, -pc_type, none, -snes_max_it, 10000, -snes_type, anderson, -m, 2500
+PETSc, CONVERGED, 56523.000000, 2500, 2, 1, 0.005701, -snes_mf, -pc_type, none, -snes_max_it, 10000, -snes_type, qn, -m, 2500
+R, CONVERGED, 0.000006177954991, 2500, 8, 1, 2.988428116
+PETSc, CONVERGED, 0.000000, 3000, 6, 1, 0.158680, -snes_mf, -pc_type, none, -snes_max_it, 10000, -snes_type, newtonls, -m, 3000
+PETSc, CONVERGED, 0.000000, 3000, 6, 1, 0.222305, -snes_mf, -pc_type, none, -snes_max_it, 10000, -snes_type, newtontr, -m, 3000
+PETSc, CONVERGED, 1383.000000, 3000, 762, 1, 0.649150, -snes_mf, -pc_type, none, -snes_max_it, 10000, -snes_type, anderson, -m, 3000
+PETSc, CONVERGED, 41017.000000, 3000, 2, 1, 0.013795, -snes_mf, -pc_type, none, -snes_max_it, 10000, -snes_type, qn, -m, 3000
+R, CONVERGED, 0.0004176214614, 3000, 7, 1, 4.511080265
+PETSc, CONVERGED, 0.000000, 100, 5, 1, 0.058063, -snes_mf, -pc_type, none, -snes_max_it, 10000, -snes_type, newtonls, -m, 100
+PETSc, CONVERGED, 0.000000, 100, 5, 1, 0.094876, -snes_mf, -pc_type, none, -snes_max_it, 10000, -snes_type, newtontr, -m, 100
+PETSc, CONVERGED, 1415.000000, 100, 20, 1, 0.019019, -snes_mf, -pc_type, none, -snes_max_it, 10000, -snes_type, anderson, -m, 100
+PETSc, CONVERGED, 4673527.000000, 100, 22, 1, 0.026482, -snes_mf, -pc_type, none, -snes_max_it, 10000, -snes_type, qn, -m, 100
+R, CONVERGED, 0.0000001526233764, 100, 7, 1, 0.02068805695
+PETSc, CONVERGED, 0.000000, 500, 5, 1, 0.065493, -snes_mf, -pc_type, none, -snes_max_it, 10000, -snes_type, newtonls, -m, 500
+PETSc, CONVERGED, 0.000000, 500, 5, 1, 0.100200, -snes_mf, -pc_type, none, -snes_max_it, 10000, -snes_type, newtontr, -m, 500
+PETSc, CONVERGED, 1388878898.000000, 500, 245, 1, 0.287288, -snes_mf, -pc_type, none, -snes_max_it, 10000, -snes_type, anderson, -m, 500
+PETSc, CONVERGED, 251649.000000, 500, 16, 1, 0.017175, -snes_mf, -pc_type, none, -snes_max_it, 10000, -snes_type, qn, -m, 500
+R, CONVERGED, 0.00003854736263, 500, 66, 1, 0.3954110146
+PETSc, CONVERGED, 0.000000, 1000, 6, 1, 0.128934, -snes_mf, -pc_type, none, -snes_max_it, 10000, -snes_type, newtonls, -m, 1000
+PETSc, CONVERGED, 0.000000, 1000, 5, 1, 0.091625, -snes_mf, -pc_type, none, -snes_max_it, 10000, -snes_type, newtontr, -m, 1000
+PETSc, CONVERGED, 158.000000, 1000, 876, 1, 0.649403, -snes_mf, -pc_type, none, -snes_max_it, 10000, -snes_type, anderson, -m, 1000
+PETSc, CONVERGED, 14947.000000, 1000, 7, 1, 0.016985, -snes_mf, -pc_type, none, -snes_max_it, 10000, -snes_type, qn, -m, 1000
+R, CONVERGED, 0.0000401319996, 1000, 7, 1, 0.3539113998
+PETSc, CONVERGED, 0.000000, 1500, 5, 1, 0.092448, -snes_mf, -pc_type, none, -snes_max_it, 10000, -snes_type, newtonls, -m, 1500
+PETSc, CONVERGED, 0.000000, 1500, 6, 1, 0.219092, -snes_mf, -pc_type, none, -snes_max_it, 10000, -snes_type, newtontr, -m, 1500
+PETSc, CONVERGED, 5099812929.000000, 1500, 382, 1, 0.382906, -snes_mf, -pc_type, none, -snes_max_it, 10000, -snes_type, anderson, -m, 1500
+PETSc, CONVERGED, 19870.000000, 1500, 2, 1, 0.012566, -snes_mf, -pc_type, none, -snes_max_it, 10000, -snes_type, qn, -m, 1500
+R, CONVERGED, 0.000007603417849, 1500, 8, 1, 0.8853290081
+PETSc, CONVERGED, 0.000000, 2000, 5, 1, 0.116616, -snes_mf, -pc_type, none, -snes_max_it, 10000, -snes_type, newtonls, -m, 2000
+PETSc, CONVERGED, 0.000000, 2000, 5, 1, 0.109238, -snes_mf, -pc_type, none, -snes_max_it, 10000, -snes_type, newtontr, -m, 2000
+PETSc, CONVERGED, 1451.000000, 2000, 88, 1, 0.150346, -snes_mf, -pc_type, none, -snes_max_it, 10000, -snes_type, anderson, -m, 2000
+PETSc, CONVERGED, 65056.000000, 2000, 2, 1, 0.006095, -snes_mf, -pc_type, none, -snes_max_it, 10000, -snes_type, qn, -m, 2000
+R, CONVERGED, 0.000006962912466, 2000, 96, 1, 9.105418205
+PETSc, CONVERGED, 0.000000, 2500, 6, 1, 0.125796, -snes_mf, -pc_type, none, -snes_max_it, 10000, -snes_type, newtonls, -m, 2500
+PETSc, CONVERGED, 0.000000, 2500, 6, 1, 0.260280, -snes_mf, -pc_type, none, -snes_max_it, 10000, -snes_type, newtontr, -m, 2500
+PETSc, CONVERGED, 4725522026.000000, 2500, 342, 1, 0.351808, -snes_mf, -pc_type, none, -snes_max_it, 10000, -snes_type, anderson, -m, 2500
+PETSc, CONVERGED, 62406.000000, 2500, 2, 1, 0.017435, -snes_mf, -pc_type, none, -snes_max_it, 10000, -snes_type, qn, -m, 2500
+R, CONVERGED, 0.0001029727273, 2500, 7, 1, 3.059400082
+PETSc, CONVERGED, 0.000000, 3000, 6, 1, 0.199694, -snes_mf, -pc_type, none, -snes_max_it, 10000, -snes_type, newtonls, -m, 3000
+PETSc, CONVERGED, 0.000000, 3000, 6, 1, 0.287270, -snes_mf, -pc_type, none, -snes_max_it, 10000, -snes_type, newtontr, -m, 3000
+PETSc, CONVERGED, 20656.000000, 3000, 51, 1, 0.094211, -snes_mf, -pc_type, none, -snes_max_it, 10000, -snes_type, anderson, -m, 3000
+PETSc, CONVERGED, 40136.000000, 3000, 2, 1, 0.006933, -snes_mf, -pc_type, none, -snes_max_it, 10000, -snes_type, qn, -m, 3000
+R, CONVERGED, 0.000008534430218, 3000, 110, 1, 23.73236346

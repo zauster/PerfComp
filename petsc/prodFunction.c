@@ -35,10 +35,11 @@ PetscErrorCode ProdFunction(SNES snes, Vec x, Vec f, void *ctx)
     }
   
     /* Compute function */
-    for(int i = 0; i < n; i++) {
-        ff[i] = prices[i] + beta[i] * xx[i] * xx[n] * pow(prodSum, drts/rho - 1);    
-    }
     ff[n] = Y + xx[n] * pow(prodSum, drts / rho);
+    prodSum = xx[n] * pow(prodSum, drts/rho - 1);
+    for(int i = 0; i < n; i++) {
+        ff[i] = prices[i] + beta[i] * xx[i] * prodSum;    
+    }
   
 
     /* Restore vectors */
