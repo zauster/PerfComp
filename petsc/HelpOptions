@@ -1,0 +1,336 @@
+--------------------------------------------------------------------------
+Petsc Release Version 3.7.6, Apr, 24, 2017 
+       The PETSc Team
+    petsc-maint@mcs.anl.gov
+ http://www.mcs.anl.gov/petsc/
+See docs/changes/index.html for recent updates.
+See docs/faq.html for problems.
+See docs/manualpages/index.html for help. 
+Libraries linked from /opt/petsc/linux-c-opt/lib
+--------------------------------------------------------------------------
+    -log_view
+Options for all PETSc programs:
+ -help: prints help method for each option
+ -on_error_abort: cause an abort when an error is detected. Useful 
+        only when run in the debugger
+ -on_error_attach_debugger [gdb,dbx,xxgdb,ups,noxterm]
+       start the debugger in new xterm
+       unless noxterm is given
+ -start_in_debugger [gdb,dbx,xxgdb,ups,noxterm]
+       start all processes in the debugger
+ -on_error_emacs <machinename>
+    emacs jumps to error file
+ -debugger_nodes [n1,n2,..] Nodes to start in debugger
+ -debugger_pause [m] : delay (in seconds) to attach debugger
+ -stop_for_debugger : prints message on how to attach debugger manually
+                      waits the delay for you to attach
+ -display display: Location where X window graphics and debuggers are displayed
+ -no_signal_handler: do not trap error signals
+ -mpi_return_on_error: MPI returns error code, rather than abort on internal error
+ -fp_trap: stop on floating point exceptions
+           note on IBM RS6000 this slows run greatly
+ -malloc_dump <optional filename>: dump list of unfreed memory at conclusion
+ -malloc: use our error checking malloc
+ -malloc no: don't use error checking malloc
+ -malloc_info: prints total memory usage
+ -malloc_log: keeps log of all memory allocations
+ -malloc_debug: enables extended checking for memory corruption
+ -options_table: dump list of options inputted
+ -options_left: dump list of unused options
+ -options_left no: don't dump list of unused options
+ -tmp tmpdir: alternative /tmp directory
+ -shared_tmp: tmp directory is shared by all processors
+ -not_shared_tmp: each processor has separate tmp directory
+ -memory_view: print memory usage at end of run
+ -get_total_flops: total flops over all processors
+ -log[_summary _summary_python]: logging objects and events
+ -log_trace [filename]: prints trace of all PETSc calls
+ -info <optional filename>: print informative messages about the calculations
+ -v: prints PETSc version number and release date
+ -options_file <file>: reads options from file
+ -petsc_sleep n: sleeps n seconds before running program
+-----------------------------------------------
+------Additional PETSc component options--------
+ -log_exclude: <vec,mat,pc.ksp,snes>
+ -info_exclude: <null,vec,mat,pc,ksp,snes,ts>
+-----------------------------------------------
+Options for handling options ------------------------------------------------
+  -options_monitor <stdout>: Monitor options database (PetscOptionsMonitorSet)
+  -options_monitor_cancel: <FALSE> Cancel all options database monitors (PetscOptionsMonitorCancel)
+Vector (Vec) options -------------------------------------------------
+  -vec_type <seq>: Vector type (one of) seq mpi standard shared (VecSetType)
+  
+Nonlinear solver (SNES) options ---------------------------------------------
+  -snes_type <newtonls>: Nonlinear solver method (one of) newtonls newtontr test nrichardson ksponly vinewtonrsls vinewtonssls ngmres qn shell ngs ncg fas ms nasm anderson aspin composite (SNESSetType)
+  -snes_stol <1e-08>: Stop if step length less than (SNESSetTolerances)
+  -snes_atol <1e-50>: Stop if function norm less than (SNESSetTolerances)
+  -snes_rtol <1e-08>: Stop if decrease in function norm less than (SNESSetTolerances)
+  -snes_max_it <50>: Maximum iterations (SNESSetTolerances)
+  -snes_max_funcs <10000>: Maximum function evaluations (SNESSetTolerances)
+  -snes_max_fail <1>: Maximum nonlinear step failures (SNESSetMaxNonlinearStepFailures)
+  -snes_max_linear_solve_fail <1>: Maximum failures in linear solves allowed (SNESSetMaxLinearSolveFailures)
+  -snes_error_if_not_converged: <FALSE> Generate error if solver does not converge (SNESSetErrorIfNotConverged)
+  -snes_lag_preconditioner <1>: How often to rebuild preconditioner (SNESSetLagPreconditioner)
+  -snes_lag_preconditioner_persists: <FALSE> Preconditioner lagging through multiple solves (SNESSetLagPreconditionerPersists)
+  -snes_lag_jacobian <1>: How often to rebuild Jacobian (SNESSetLagJacobian)
+  -snes_lag_jacobian_persists: <FALSE> Jacobian lagging through multiple solves (SNESSetLagJacobianPersists)
+  -snes_grid_sequence <0>: Use grid sequencing to generate initial guess (SNESSetGridSequence)
+  -snes_convergence_test <default> (choose one of) default skip (SNESSetConvergenceTest)
+  -snes_norm_schedule <function> (choose one of) NONE ALWAYS INITIALONLY FINALONLY INITIALFINALONLY (SNESSetNormSchedule)
+  -snes_function_type <unpreconditioned> (choose one of) UNPRECONDITIONED PRECONDITIONED (SNESSetFunctionType)
+  -snes_ksp_ew: <FALSE> Use Eisentat-Walker linear system convergence test (SNESKSPSetUseEW)
+  -snes_ksp_ew_version <2>: Version 1, 2 or 3 (SNESKSPSetParametersEW)
+  -snes_ksp_ew_rtol0 <0.3>: 0 <= rtol0 < 1 (SNESKSPSetParametersEW)
+  -snes_ksp_ew_rtolmax <0.9>: 0 <= rtolmax < 1 (SNESKSPSetParametersEW)
+  -snes_ksp_ew_gamma <1.>: 0 <= gamma <= 1 (SNESKSPSetParametersEW)
+  -snes_ksp_ew_alpha <1.61803>: 1 < alpha <= 2 (SNESKSPSetParametersEW)
+  -snes_ksp_ew_alpha2 <1.61803>: alpha2 (SNESKSPSetParametersEW)
+  -snes_ksp_ew_threshold <0.1>: 0 < threshold < 1 (SNESKSPSetParametersEW)
+  -snes_check_jacobian: <FALSE> Check each Jacobian with a differenced one (SNESUpdateCheckJacobian)
+  -snes_monitor_cancel: <FALSE> Remove all monitors (SNESMonitorCancel)
+
+  -snes_monitor ascii[:[filename][:[format][:append]]]: Prints object to stdout or ASCII file (PetscOptionsGetViewer)
+    -snes_monitor binary[:[filename][:[format][:append]]]: Saves object to a binary file (PetscOptionsGetViewer)
+    -snes_monitor draw[:drawtype]: Draws object (PetscOptionsGetViewer)
+    -snes_monitor socket[:port]: Pushes object to a Unix socket (PetscOptionsGetViewer)
+    -snes_monitor saws[:communicatorname]: Publishes object to SAWs (PetscOptionsGetViewer)
+
+
+  -snes_monitor_short ascii[:[filename][:[format][:append]]]: Prints object to stdout or ASCII file (PetscOptionsGetViewer)
+    -snes_monitor_short binary[:[filename][:[format][:append]]]: Saves object to a binary file (PetscOptionsGetViewer)
+    -snes_monitor_short draw[:drawtype]: Draws object (PetscOptionsGetViewer)
+    -snes_monitor_short socket[:port]: Pushes object to a Unix socket (PetscOptionsGetViewer)
+    -snes_monitor_short saws[:communicatorname]: Publishes object to SAWs (PetscOptionsGetViewer)
+
+
+  -snes_monitor_range ascii[:[filename][:[format][:append]]]: Prints object to stdout or ASCII file (PetscOptionsGetViewer)
+    -snes_monitor_range binary[:[filename][:[format][:append]]]: Saves object to a binary file (PetscOptionsGetViewer)
+    -snes_monitor_range draw[:drawtype]: Draws object (PetscOptionsGetViewer)
+    -snes_monitor_range socket[:port]: Pushes object to a Unix socket (PetscOptionsGetViewer)
+    -snes_monitor_range saws[:communicatorname]: Publishes object to SAWs (PetscOptionsGetViewer)
+
+
+  -snes_monitor_ratio ascii[:[filename][:[format][:append]]]: Prints object to stdout or ASCII file (PetscOptionsGetViewer)
+    -snes_monitor_ratio binary[:[filename][:[format][:append]]]: Saves object to a binary file (PetscOptionsGetViewer)
+    -snes_monitor_ratio draw[:drawtype]: Draws object (PetscOptionsGetViewer)
+    -snes_monitor_ratio socket[:port]: Pushes object to a Unix socket (PetscOptionsGetViewer)
+    -snes_monitor_ratio saws[:communicatorname]: Publishes object to SAWs (PetscOptionsGetViewer)
+
+
+  -snes_monitor_field ascii[:[filename][:[format][:append]]]: Prints object to stdout or ASCII file (PetscOptionsGetViewer)
+    -snes_monitor_field binary[:[filename][:[format][:append]]]: Saves object to a binary file (PetscOptionsGetViewer)
+    -snes_monitor_field draw[:drawtype]: Draws object (PetscOptionsGetViewer)
+    -snes_monitor_field socket[:port]: Pushes object to a Unix socket (PetscOptionsGetViewer)
+    -snes_monitor_field saws[:communicatorname]: Publishes object to SAWs (PetscOptionsGetViewer)
+
+
+  -snes_monitor_solution ascii[:[filename][:[format][:append]]]: Prints object to stdout or ASCII file (PetscOptionsGetViewer)
+    -snes_monitor_solution binary[:[filename][:[format][:append]]]: Saves object to a binary file (PetscOptionsGetViewer)
+    -snes_monitor_solution draw[:drawtype]: Draws object (PetscOptionsGetViewer)
+    -snes_monitor_solution socket[:port]: Pushes object to a Unix socket (PetscOptionsGetViewer)
+    -snes_monitor_solution saws[:communicatorname]: Publishes object to SAWs (PetscOptionsGetViewer)
+
+
+  -snes_monitor_solution_update ascii[:[filename][:[format][:append]]]: Prints object to stdout or ASCII file (PetscOptionsGetViewer)
+    -snes_monitor_solution_update binary[:[filename][:[format][:append]]]: Saves object to a binary file (PetscOptionsGetViewer)
+    -snes_monitor_solution_update draw[:drawtype]: Draws object (PetscOptionsGetViewer)
+    -snes_monitor_solution_update socket[:port]: Pushes object to a Unix socket (PetscOptionsGetViewer)
+    -snes_monitor_solution_update saws[:communicatorname]: Publishes object to SAWs (PetscOptionsGetViewer)
+
+
+  -snes_monitor_residual ascii[:[filename][:[format][:append]]]: Prints object to stdout or ASCII file (PetscOptionsGetViewer)
+    -snes_monitor_residual binary[:[filename][:[format][:append]]]: Saves object to a binary file (PetscOptionsGetViewer)
+    -snes_monitor_residual draw[:drawtype]: Draws object (PetscOptionsGetViewer)
+    -snes_monitor_residual socket[:port]: Pushes object to a Unix socket (PetscOptionsGetViewer)
+    -snes_monitor_residual saws[:communicatorname]: Publishes object to SAWs (PetscOptionsGetViewer)
+
+
+  -snes_monitor_jacupdate_spectrum ascii[:[filename][:[format][:append]]]: Prints object to stdout or ASCII file (PetscOptionsGetViewer)
+    -snes_monitor_jacupdate_spectrum binary[:[filename][:[format][:append]]]: Saves object to a binary file (PetscOptionsGetViewer)
+    -snes_monitor_jacupdate_spectrum draw[:drawtype]: Draws object (PetscOptionsGetViewer)
+    -snes_monitor_jacupdate_spectrum socket[:port]: Pushes object to a Unix socket (PetscOptionsGetViewer)
+    -snes_monitor_jacupdate_spectrum saws[:communicatorname]: Publishes object to SAWs (PetscOptionsGetViewer)
+
+
+  -snes_monitor_fields ascii[:[filename][:[format][:append]]]: Prints object to stdout or ASCII file (PetscOptionsGetViewer)
+    -snes_monitor_fields binary[:[filename][:[format][:append]]]: Saves object to a binary file (PetscOptionsGetViewer)
+    -snes_monitor_fields draw[:drawtype]: Draws object (PetscOptionsGetViewer)
+    -snes_monitor_fields socket[:port]: Pushes object to a Unix socket (PetscOptionsGetViewer)
+    -snes_monitor_fields saws[:communicatorname]: Publishes object to SAWs (PetscOptionsGetViewer)
+
+  -snes_monitor_python <(null)>: Use Python function (SNESMonitorSet)
+  -snes_monitor_lg_residualnorm: <FALSE> Plot function norm at each iteration (SNESMonitorLGResidualNorm)
+  -snes_monitor_lg_range: <FALSE> Plot function range at each iteration (SNESMonitorLGRange)
+  -snes_fd: <FALSE> Use finite differences (slow) to compute Jacobian (SNESComputeJacobianDefault)
+  -snes_fd_function: <FALSE> Use finite differences (slow) to compute function from user objective (SNESObjectiveComputeFunctionDefaultFD)
+  -snes_fd_color: <FALSE> Use finite differences with coloring to compute Jacobian (SNESComputeJacobianDefaultColor)
+  -snes_mf_operator: <FALSE> Use a Matrix-Free Jacobian with user-provided preconditioner matrix (MatCreateSNESMF)
+  -snes_mf: <FALSE> Use a Matrix-Free Jacobian with no preconditioner matrix (MatCreateSNESMF)
+  -snes_mf_version <1>: Matrix-Free routines version 1 or 2 (None)
+  -snes_npc_side <RIGHT> (choose one of) LEFT RIGHT SYMMETRIC (SNESSetNPCSide)
+Linesearch (SNESLineSearch) options -------------------------------------------------
+  -snes_linesearch_type <bt>: Linesearch type (one of) shell basic l2 bt nleqerr cp (SNESLineSearchSetType)
+
+  -snes_linesearch_monitor ascii[:[filename][:[format][:append]]]: Prints object to stdout or ASCII file (PetscOptionsGetViewer)
+    -snes_linesearch_monitor binary[:[filename][:[format][:append]]]: Saves object to a binary file (PetscOptionsGetViewer)
+    -snes_linesearch_monitor draw[:drawtype]: Draws object (PetscOptionsGetViewer)
+    -snes_linesearch_monitor socket[:port]: Pushes object to a Unix socket (PetscOptionsGetViewer)
+    -snes_linesearch_monitor saws[:communicatorname]: Publishes object to SAWs (PetscOptionsGetViewer)
+
+
+  -snes_linesearch_monitor_solution_update ascii[:[filename][:[format][:append]]]: Prints object to stdout or ASCII file (PetscOptionsGetViewer)
+    -snes_linesearch_monitor_solution_update binary[:[filename][:[format][:append]]]: Saves object to a binary file (PetscOptionsGetViewer)
+    -snes_linesearch_monitor_solution_update draw[:drawtype]: Draws object (PetscOptionsGetViewer)
+    -snes_linesearch_monitor_solution_update socket[:port]: Pushes object to a Unix socket (PetscOptionsGetViewer)
+    -snes_linesearch_monitor_solution_update saws[:communicatorname]: Publishes object to SAWs (PetscOptionsGetViewer)
+
+  -snes_linesearch_minlambda <1e-12>: Minimum step length (SNESLineSearchSetTolerances)
+  -snes_linesearch_maxstep <1e+08>: Maximum step size (SNESLineSearchSetTolerances)
+  -snes_linesearch_rtol <1e-08>: Relative tolerance for iterative line search (SNESLineSearchSetTolerances)
+  -snes_linesearch_atol <1e-15>: Absolute tolerance for iterative line search (SNESLineSearchSetTolerances)
+  -snes_linesearch_ltol <1e-08>: Change in lambda tolerance for iterative line search (SNESLineSearchSetTolerances)
+  -snes_linesearch_max_it <40>: Maximum iterations for iterative line searches (SNESLineSearchSetTolerances)
+  -snes_linesearch_damping <1.>: Line search damping and initial step guess (SNESLineSearchSetDamping)
+  -snes_linesearch_keeplambda: <FALSE> Use previous lambda as damping (SNESLineSearchSetKeepLambda)
+  -snes_linesearch_precheck_picard: <FALSE> Use a correction that sometimes improves convergence of Picard iteration (SNESLineSearchPreCheckPicard)
+  -snes_linesearch_order <3>: Order of approximation used in the line search (SNESLineSearchSetOrder)
+  -snes_linesearch_norms: <TRUE> Compute final norms in line search (SNESLineSearchSetComputeNorms)
+  SNESLineSearch BT options
+  -snes_linesearch_alpha <0.0001>: Descent tolerance (SNESLineSearchBT)
+Preconditioner (PC) options -------------------------------------------------
+  -pc_type <ilu>: Preconditioner (one of) none jacobi pbjacobi bjacobi sor lu shell mg eisenstat ilu icc cholesky asm gasm ksp composite redundant nn mat fieldsplit galerkin exotic cp lsc redistribute svd gamg kaczmarz telescope tfs bddc (PCSetType)
+  -pc_use_amat: <FALSE> use Amat (instead of Pmat) to define preconditioner in nested inner solves (PCSetUseAmat)
+  ILU Options
+  -pc_factor_in_place: <FALSE> Form factored matrix in the same memory as the matrix (PCFactorSetUseInPlace)
+  -pc_factor_fill <1.>: Expected non-zeros in factored matrix (PCFactorSetFill)
+  -pc_factor_shift_type <NONE> (choose one of) NONE NONZERO POSITIVE_DEFINITE INBLOCKS (PCFactorSetShiftType)
+  -pc_factor_shift_amount <2.22045e-14>: Shift added to diagonal (PCFactorSetShiftAmount)
+  -pc_factor_zeropivot <2.22045e-14>: Pivot is considered zero if less than (PCFactorSetZeroPivot)
+  -pc_factor_column_pivot <-2.>: Column pivot tolerance (used only for some factorization) (PCFactorSetColumnPivot)
+  -pc_factor_pivot_in_blocks: <TRUE> Pivot inside matrix dense blocks for BAIJ and SBAIJ (PCFactorSetPivotInBlocks)
+  -pc_factor_reuse_fill: <FALSE> Use fill from previous factorization (PCFactorSetReuseFill)
+  -pc_factor_reuse_ordering: <FALSE> Reuse ordering from previous factorization (PCFactorSetReuseOrdering)
+  -pc_factor_mat_ordering_type <natural>: Reordering to reduce nonzeros in factored matrix (one of) natural nd 1wd rcm qmd rowlength spectral amd (PCFactorSetMatOrderingType)
+  -pc_factor_mat_solver_package <(null)>: Specific direct solver to use (MatGetFactor)
+  -pc_factor_levels <0>: levels of fill (PCFactorSetLevels)
+  -pc_factor_diagonal_fill: <FALSE> Allow fill into empty diagonal entry (PCFactorSetAllowDiagonalFill)
+  -pc_factor_nonzeros_along_diagonal: Reorder to remove zeros from diagonal (PCFactorReorderForNonzeroDiagonal)
+Krylov Method (KSP) options -------------------------------------------------
+  -ksp_type <gmres>: Krylov method (one of) cg groppcg pipecg pipecgrr cgne nash stcg gltr richardson chebyshev gmres tcqmr fcg pipefcg bcgs ibcgs fbcgs fbcgsr bcgsl cgs tfqmr cr pipecr lsqr preonly qcg bicg fgmres pipefgmres minres symmlq lgmres lcd gcr pipegcr pgmres dgmres tsirm cgls (KSPSetType)
+  -ksp_max_it <10000>: Maximum number of iterations (KSPSetTolerances)
+  -ksp_rtol <1e-05>: Relative decrease in residual norm (KSPSetTolerances)
+  -ksp_atol <1e-50>: Absolute value of residual norm (KSPSetTolerances)
+  -ksp_divtol <10000.>: Residual norm increase cause divergence (KSPSetTolerances)
+  -ksp_converged_use_initial_residual_norm: <FALSE> Use initial residual residual norm for computing relative convergence (KSPConvergedDefaultSetUIRNorm)
+  -ksp_converged_use_min_initial_residual_norm: <FALSE> Use minimum of initial residual norm and b for computing relative convergence (KSPConvergedDefaultSetUMIRNorm)
+  -ksp_initial_guess_nonzero: <FALSE> Use the contents of the solution vector for initial guess (KSPSetInitialNonzero)
+  -ksp_reuse_preconditioner: <FALSE> Use initial preconditioner and don't ever compute a new one  (KSPReusePreconditioner)
+  -ksp_knoll: <FALSE> Use preconditioner applied to b for initial guess (KSPSetInitialGuessKnoll)
+  -ksp_error_if_not_converged: <FALSE> Generate error if solver does not converge (KSPSetErrorIfNotConverged)
+  -ksp_fischer_guess <0>: Use Paul Fischer's algorithm for initial guess (KSPSetUseFischerGuess)
+  -ksp_convergence_test <default> (choose one of) default skip (KSPSetConvergenceTest)
+  -ksp_norm_type <PRECONDITIONED> (choose one of) NONE PRECONDITIONED UNPRECONDITIONED NATURAL (KSPSetNormType)
+  -ksp_check_norm_iteration <-1>: First iteration to compute residual norm (KSPSetCheckNormIteration)
+  -ksp_lag_norm: <FALSE> Lag the calculation of the residual norm (KSPSetLagNorm)
+  -ksp_diagonal_scale: <FALSE> Diagonal scale matrix before building preconditioner (KSPSetDiagonalScale)
+  -ksp_diagonal_scale_fix: <FALSE> Fix diagonally scaled matrix after solve (KSPSetDiagonalScaleFix)
+  -ksp_constant_null_space: <FALSE> Add constant null space to Krylov solver matrix (MatSetNullSpace)
+  -ksp_monitor_cancel: <FALSE> Remove any hardwired monitor routines (KSPMonitorCancel)
+
+  -ksp_monitor ascii[:[filename][:[format][:append]]]: Prints object to stdout or ASCII file (PetscOptionsGetViewer)
+    -ksp_monitor binary[:[filename][:[format][:append]]]: Saves object to a binary file (PetscOptionsGetViewer)
+    -ksp_monitor draw[:drawtype]: Draws object (PetscOptionsGetViewer)
+    -ksp_monitor socket[:port]: Pushes object to a Unix socket (PetscOptionsGetViewer)
+    -ksp_monitor saws[:communicatorname]: Publishes object to SAWs (PetscOptionsGetViewer)
+
+
+  -ksp_monitor_range ascii[:[filename][:[format][:append]]]: Prints object to stdout or ASCII file (PetscOptionsGetViewer)
+    -ksp_monitor_range binary[:[filename][:[format][:append]]]: Saves object to a binary file (PetscOptionsGetViewer)
+    -ksp_monitor_range draw[:drawtype]: Draws object (PetscOptionsGetViewer)
+    -ksp_monitor_range socket[:port]: Pushes object to a Unix socket (PetscOptionsGetViewer)
+    -ksp_monitor_range saws[:communicatorname]: Publishes object to SAWs (PetscOptionsGetViewer)
+
+
+  -ksp_monitor_true_residual ascii[:[filename][:[format][:append]]]: Prints object to stdout or ASCII file (PetscOptionsGetViewer)
+    -ksp_monitor_true_residual binary[:[filename][:[format][:append]]]: Saves object to a binary file (PetscOptionsGetViewer)
+    -ksp_monitor_true_residual draw[:drawtype]: Draws object (PetscOptionsGetViewer)
+    -ksp_monitor_true_residual socket[:port]: Pushes object to a Unix socket (PetscOptionsGetViewer)
+    -ksp_monitor_true_residual saws[:communicatorname]: Publishes object to SAWs (PetscOptionsGetViewer)
+
+
+  -ksp_monitor_max ascii[:[filename][:[format][:append]]]: Prints object to stdout or ASCII file (PetscOptionsGetViewer)
+    -ksp_monitor_max binary[:[filename][:[format][:append]]]: Saves object to a binary file (PetscOptionsGetViewer)
+    -ksp_monitor_max draw[:drawtype]: Draws object (PetscOptionsGetViewer)
+    -ksp_monitor_max socket[:port]: Pushes object to a Unix socket (PetscOptionsGetViewer)
+    -ksp_monitor_max saws[:communicatorname]: Publishes object to SAWs (PetscOptionsGetViewer)
+
+
+  -ksp_monitor_short ascii[:[filename][:[format][:append]]]: Prints object to stdout or ASCII file (PetscOptionsGetViewer)
+    -ksp_monitor_short binary[:[filename][:[format][:append]]]: Saves object to a binary file (PetscOptionsGetViewer)
+    -ksp_monitor_short draw[:drawtype]: Draws object (PetscOptionsGetViewer)
+    -ksp_monitor_short socket[:port]: Pushes object to a Unix socket (PetscOptionsGetViewer)
+    -ksp_monitor_short saws[:communicatorname]: Publishes object to SAWs (PetscOptionsGetViewer)
+
+
+  -ksp_monitor_solution ascii[:[filename][:[format][:append]]]: Prints object to stdout or ASCII file (PetscOptionsGetViewer)
+    -ksp_monitor_solution binary[:[filename][:[format][:append]]]: Saves object to a binary file (PetscOptionsGetViewer)
+    -ksp_monitor_solution draw[:drawtype]: Draws object (PetscOptionsGetViewer)
+    -ksp_monitor_solution socket[:port]: Pushes object to a Unix socket (PetscOptionsGetViewer)
+    -ksp_monitor_solution saws[:communicatorname]: Publishes object to SAWs (PetscOptionsGetViewer)
+
+
+  -ksp_monitor_singular_value ascii[:[filename][:[format][:append]]]: Prints object to stdout or ASCII file (PetscOptionsGetViewer)
+    -ksp_monitor_singular_value binary[:[filename][:[format][:append]]]: Saves object to a binary file (PetscOptionsGetViewer)
+    -ksp_monitor_singular_value draw[:drawtype]: Draws object (PetscOptionsGetViewer)
+    -ksp_monitor_singular_value socket[:port]: Pushes object to a Unix socket (PetscOptionsGetViewer)
+    -ksp_monitor_singular_value saws[:communicatorname]: Publishes object to SAWs (PetscOptionsGetViewer)
+
+  -ksp_monitor_python <(null)>: Use Python function (KSPMonitorSet)
+  -ksp_monitor_lg_residualnorm: <FALSE> Monitor graphically preconditioned residual norm (KSPMonitorSet)
+  -ksp_monitor_lg_true_residualnorm: <FALSE> Monitor graphically true residual norm (KSPMonitorSet)
+  -ksp_monitor_lg_range: <FALSE> Monitor graphically range of preconditioned residual norm (KSPMonitorSet)
+  -ksp_pc_side <LEFT> (choose one of) LEFT RIGHT SYMMETRIC (KSPSetPCSide)
+  -ksp_compute_singularvalues: <FALSE> Compute singular values of preconditioned operator (KSPSetComputeSingularValues)
+  -ksp_compute_eigenvalues: <FALSE> Compute eigenvalues of preconditioned operator (KSPSetComputeSingularValues)
+  -ksp_plot_eigenvalues: <FALSE> Scatter plot extreme eigenvalues (KSPSetComputeSingularValues)
+  KSP GMRES Options
+  -ksp_gmres_restart <30>: Number of Krylov search directions (KSPGMRESSetRestart)
+  -ksp_gmres_haptol <1e-30>: Tolerance for exact convergence (happy ending) (KSPGMRESSetHapTol)
+  -ksp_gmres_preallocate: <FALSE> Preallocate Krylov vectors (KSPGMRESSetPreAllocateVectors)
+  Pick at most one of -------------
+    -ksp_gmres_classicalgramschmidt: Classical (unmodified) Gram-Schmidt (fast) (KSPGMRESSetOrthogonalization)
+    -ksp_gmres_modifiedgramschmidt: Modified Gram-Schmidt (slow,more stable) (KSPGMRESSetOrthogonalization)
+  -ksp_gmres_cgs_refinement_type <REFINE_NEVER> (choose one of) REFINE_NEVER REFINE_IFNEEDED REFINE_ALWAYS (KSPGMRESSetCGSRefinementType)
+  -ksp_gmres_krylov_monitor: <FALSE> Plot the Krylov directions (KSPMonitorSet)
+
+  -snes_view_pre ascii[:[filename][:[format][:append]]]: Prints object to stdout or ASCII file (PetscOptionsGetViewer)
+    -snes_view_pre binary[:[filename][:[format][:append]]]: Saves object to a binary file (PetscOptionsGetViewer)
+    -snes_view_pre draw[:drawtype]: Draws object (PetscOptionsGetViewer)
+    -snes_view_pre socket[:port]: Pushes object to a Unix socket (PetscOptionsGetViewer)
+    -snes_view_pre saws[:communicatorname]: Publishes object to SAWs (PetscOptionsGetViewer)
+
+Options for SEQAIJ matrix -------------------------------------------------
+  -mat_no_unroll: <FALSE> Do not optimize for inodes (slower) (None)
+  -mat_no_inode: <FALSE> Do not optimize for inodes -slower- (None)
+  -mat_inode_limit <5>: Do not use inodes larger then this value (None)
+
+Matrix coloring (MatColoring) options ---------------------------------------
+  -mat_coloring_type <sl>: The coloring method used (one of) jp greedy power natural sl id lf (MatColoringSetType)
+  -mat_coloring_distance <2>: Distance of the coloring (MatColoringSetDistance)
+  -mat_coloring_maxcolors <65535>: Maximum colors returned at the end. 1 returns an independent set (MatColoringSetMaxColors)
+  -mat_coloring_valid: <FALSE> Check that a valid coloring has been produced ()
+  -mat_coloring_weight_type <RANDOM> (choose one of) RANDOM LEXICAL LF SL (MatColoringSetWeightType)
+
+  -is_coloring_view ascii[:[filename][:[format][:append]]]: Prints object to stdout or ASCII file (PetscOptionsGetViewer)
+    -is_coloring_view binary[:[filename][:[format][:append]]]: Saves object to a binary file (PetscOptionsGetViewer)
+    -is_coloring_view draw[:drawtype]: Draws object (PetscOptionsGetViewer)
+    -is_coloring_view socket[:port]: Pushes object to a Unix socket (PetscOptionsGetViewer)
+    -is_coloring_view saws[:communicatorname]: Publishes object to SAWs (PetscOptionsGetViewer)
+
+
+  -mat_coloring_view ascii[:[filename][:[format][:append]]]: Prints object to stdout or ASCII file (PetscOptionsGetViewer)
+    -mat_coloring_view binary[:[filename][:[format][:append]]]: Saves object to a binary file (PetscOptionsGetViewer)
+    -mat_coloring_view draw[:drawtype]: Draws object (PetscOptionsGetViewer)
+    -mat_coloring_view socket[:port]: Pushes object to a Unix socket (PetscOptionsGetViewer)
+    -mat_coloring_view saws[:communicatorname]: Publishes object to SAWs (PetscOptionsGetViewer)
+
