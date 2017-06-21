@@ -1,7 +1,6 @@
 static char help[] = "Newton's method to solve a nonlinear system that resembles an economic production function.\n\n";
 
 #include <petscsnes.h>
-/* #include <stdio.h>      /\* printf, scanf, puts, NULL *\/ */
 #include <stdlib.h>     /* srand, rand */
 #include <time.h>       /* time */
 #include <math.h>
@@ -15,10 +14,9 @@ typedef struct {
     PetscReal *prices;       /* industry good prices */
 } AppCtx;
 
-/* #define DEBUG */
+#define DEBUG
 
 #include "prodFunction.c"
-/* extern PetscErrorCode ProdFunction(SNES, Vec, Vec, void*); */
 
 #undef __FUNCT__
 #define __FUNCT__ "main"
@@ -30,8 +28,6 @@ int main(int argc, char **argv)
     /* solution, residual vectors */
     Vec x, r;
     
-    /* Jacobian matrix */
-    /* Mat J; */
     PetscErrorCode ierr;
     PetscInt NumberIterations, n;
     PetscScalar *guess, *result;
@@ -63,7 +59,7 @@ int main(int argc, char **argv)
     /* initialize random seed: */
     /* srand(1234567); // this seed may lead to errors */
     srand(12345678);
-    srand(time(NULL));
+    /* srand(time(NULL)); */
 
     /* generate betas between 0 and 10000 and scale them afterwards: */
     /* generate xvec between 100 and 200: */
@@ -90,9 +86,8 @@ int main(int argc, char **argv)
     }
     params.Y = -1 * gamma * pow(prodSum, drts / rho);
 
-    prodSum = gamma * pow(prodSum, drts/rho - 1);
-
     /* Compute prices */
+    prodSum = gamma * pow(prodSum, drts/rho - 1);
     for(int i = 0; i < n; i++) {
         prices[i] = -1 * betas[i] * pow(xvec[i], rho - 1) * prodSum;
     }
@@ -111,20 +106,15 @@ int main(int argc, char **argv)
        - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
     ierr = SNESCreate(PETSC_COMM_WORLD, &snes); CHKERRQ(ierr);
 
-    /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-       Create matrix and vector data structures; set corresponding routines
-       - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
-
     /* Create vectors for solution and nonlinear function */
     ierr = VecCreate(PETSC_COMM_WORLD, &x); CHKERRQ(ierr);
     ierr = VecSetSizes(x, PETSC_DECIDE, n + 1); CHKERRQ(ierr);
     ierr = VecSetFromOptions(x); CHKERRQ(ierr);
     ierr = VecDuplicate(x, &r); CHKERRQ(ierr);
 
-
-    /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-       Evaluate initial guess; then solve nonlinear system
-       - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
+    //
+    // Evaluate initial guess; then solve nonlinear system
+    //
     srand(time(NULL));
     ierr  = VecGetArray(x,&guess); CHKERRQ(ierr);
     for(int i = 0; i < n; i++) {
@@ -137,7 +127,6 @@ int main(int argc, char **argv)
     guess[n] = 1.1;
     ierr  = VecRestoreArray(x, &guess); CHKERRQ(ierr);
 
-    
     /* Create Jacobian matrix data structure */
     /* ierr = MatCreate(PETSC_COMM_WORLD,&J); CHKERRQ(ierr); */
     /* ierr = MatSetSizes(J,PETSC_DECIDE,PETSC_DECIDE,2,2); CHKERRQ(ierr); */
@@ -145,7 +134,6 @@ int main(int argc, char **argv)
     /* ierr = MatSetUp(J); CHKERRQ(ierr); */
 
     /* Set function evaluation routine and vector. */
-    /* ierr = SNESSetFunction(snes,r,ProdFunction, NULL); CHKERRQ(ierr); */
     ierr = SNESSetFunction(snes, r, ProdFunction, &params); CHKERRQ(ierr);
 
     /* Set Jacobian matrix data structure and Jacobian evaluation routine */
@@ -154,8 +142,8 @@ int main(int argc, char **argv)
     /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
        Customize nonlinear solver; set runtime options
        - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
+    printf(" => Start solving ...\n");
     ierr = SNESSetFromOptions(snes); CHKERRQ(ierr);
-
     ierr = SNESSolve(snes, NULL, x); CHKERRQ(ierr);
   
     /* ierr = VecView(x,PETSC_VIEWER_STDOUT_WORLD); CHKERRQ(ierr); */
@@ -163,6 +151,7 @@ int main(int argc, char **argv)
     ierr = SNESGetConvergedReason(snes, &reason); CHKERRQ(ierr);
 
     endTimer = MPI_Wtime();
+    printf(" => Finished!\n");
     
     double residualNorm = 0.0;
     ierr  = VecGetArray(x, &result); CHKERRQ(ierr);
@@ -176,8 +165,8 @@ int main(int argc, char **argv)
         residualNorm += abs(result[i] - xvec[i]);
     }
 #ifdef DEBUG
-    ierr = PetscPrintf(PETSC_COMM_WORLD, "gamma = %f | %f\n", result[n],
-            gamma);
+    ierr = PetscPrintf(PETSC_COMM_WORLD, "gamma = %f | %f\n",
+                       result[n], gamma);
     CHKERRQ(ierr);
 #endif
     

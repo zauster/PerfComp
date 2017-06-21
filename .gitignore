@@ -1,3 +1,4 @@
 /petsc/nls_eco_problem
 /README.html
 /README_cache/*
+/petsc/nls_eco_problem_parallel

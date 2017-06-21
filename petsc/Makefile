@@ -21,15 +21,23 @@ run:
 run_debug:
 	-@${MPIEXEC} -n 1 ./nls_eco_problem -snes_mf -pc_type none -snes_type newtonls -snes_max_it 1000 -snes_monitor -snes_monitor_short
 
+nls_eco_problem_parallel: nls_eco_problem_parallel.o
+	-${CLINKER} -o nls_eco_problem_parallel nls_eco_problem_parallel.o ${PETSC_SNES_LIB}
+	${RM} nls_eco_problem_parallel.o
+
+runp:
+	-@${MPIEXEC} -n 2 ./nls_eco_problem_parallel -snes_mf -pc_type none -snes_max_it 3
+
+##-snes_mf -pc_type none -snes_type newtonls -snes_max_it 1000
+
+runp_debug:
+	-@${MPIEXEC} -n 2 ./nls_eco_problem_parallel -snes_mf -pc_type none -snes_type newtonls -snes_max_it 1000 -snes_monitor -snes_monitor_short
 
 
-# --------------------
-# old stuff
-# --------------------
-# nls_eco_problem_2x: nls_eco_problem_2x.o  chkopts
-# 	-${CLINKER} -o nls_eco_problem_2x nls_eco_problem_2x.o ${PETSC_SNES_LIB}
-# 	${RM} nls_eco_problem_2x.o
-# run_2x:
-# 	-@${MPIEXEC} -n 1 ./nls_eco_problem_2x -snes_type newtonls -snes_max_it 1000
-# run_exp_2x:
-# 	-@${MPIEXEC} -n 1 ./nls_eco_problem_2x -snes_mf -pc_type none -snes_type newtonls -snes_max_it 1000 -snes_view -snes_monitor_short
+
+test: test_main.o
+	-${CLINKER} -o test_main test_main.o ${PETSC_SNES_LIB}
+	${RM} test_main.o
+
+runtest:
+	-@${MPIEXEC} -n 4 ./test_main -snes_mf -pc_type none

@@ -28,6 +28,10 @@ PetscErrorCode ProdFunction(SNES snes, Vec x, Vec f, void *ctx)
     ierr = VecGetArray(f,&ff); CHKERRQ(ierr);
 
 
+    //
+    // TODO: replace with vector operations
+    //
+
     /* Calculate the _inner_ sum of the production function */
     prodSum = 0;
     for(int i = 0; i < n; i++) {
@@ -36,6 +40,9 @@ PetscErrorCode ProdFunction(SNES snes, Vec x, Vec f, void *ctx)
   
     /* Compute function */
     ff[n] = Y + xx[n] * pow(prodSum, drts / rho);
+    /* PetscReal tmpgamma = Y + xx[n] * pow(prodSum, drts / rho); */
+    /* printf("   --> gamma = %f\n", tmpgamma); */
+    
     prodSum = xx[n] * pow(prodSum, drts/rho - 1);
     for(int i = 0; i < n; i++) {
         ff[i] = prices[i] + beta[i] * xx[i] * prodSum;    
