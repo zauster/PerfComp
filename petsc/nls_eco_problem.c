@@ -172,7 +172,7 @@ int main(int argc, char **argv)
     
     ierr  = VecRestoreArray(x,&result); CHKERRQ(ierr);
     ierr = PetscPrintf(PETSC_COMM_WORLD,
-                       "PETSc, %s, %f, %i, %D, %i, %f",
+                       "PETSc, serial, %s, %f, %i, %D, %i, %f",
                        reason>0 ? "CONVERGED" : (char*) SNESConvergedReasons[reason],
                        residualNorm,
                        n, NumberIterations, NumberProcesses,

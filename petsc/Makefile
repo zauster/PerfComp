@@ -16,7 +16,7 @@ nls_eco_problem: nls_eco_problem.o
 	${RM} nls_eco_problem.o
 
 run:
-	-@${MPIEXEC} -n 1 ./nls_eco_problem -snes_mf -pc_type none -snes_type newtonls -snes_max_it 1000
+	-@${MPIEXEC} -n 1 ./nls_eco_problem -snes_mf -pc_type none -snes_type newtonls -snes_max_it 1000 -m 4000
 
 run_debug:
 	-@${MPIEXEC} -n 1 ./nls_eco_problem -snes_mf -pc_type none -snes_type newtonls -snes_max_it 1000 -snes_monitor -snes_monitor_short
@@ -26,12 +26,12 @@ nls_eco_problem_parallel: nls_eco_problem_parallel.o
 	${RM} nls_eco_problem_parallel.o
 
 runp:
-	-@${MPIEXEC} -n 2 ./nls_eco_problem_parallel -snes_mf -pc_type none -snes_max_it 3
+	-@${MPIEXEC} -n 2 ./nls_eco_problem_parallel -snes_mf -pc_type none -snes_max_it 1000
 
 ##-snes_mf -pc_type none -snes_type newtonls -snes_max_it 1000
 
 runp_debug:
-	-@${MPIEXEC} -n 2 ./nls_eco_problem_parallel -snes_mf -pc_type none -snes_type newtonls -snes_max_it 1000 -snes_monitor -snes_monitor_short
+	-@${MPIEXEC} -n 2 ./nls_eco_problem_parallel -snes_mf -pc_type none -snes_type newtonls -snes_max_it 1000 -snes_monitor -snes_monitor_short -m 4000
 
 
 
@@ -40,4 +40,4 @@ test: test_main.o
 	${RM} test_main.o
 
 runtest:
-	-@${MPIEXEC} -n 4 ./test_main -snes_mf -pc_type none
+	-@${MPIEXEC} -n 2 ./test_main -snes_mf -pc_type none

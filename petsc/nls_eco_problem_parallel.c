@@ -28,8 +28,8 @@ int main(int argc, char **argv)
     Vec x, residual;
 
     /* betas */
-    Vec betas, xorigin, prices;
-    PetscScalar *tmpVec, betaSum, prodSum, tmp;
+    Vec betas, xorigin, prices, diff;
+    PetscScalar betaSum, prodSum, tmp, residualNorm;
 
     /* nonlinear solver context */
     SNES snes;
@@ -38,11 +38,11 @@ int main(int argc, char **argv)
     PetscInt NumberIterations, n, nplus1;
     PetscScalar zero = 0;
     PetscInt StartIndex, EndIndex, globalPos;
-    PetscScalar guess, *result;
+    PetscScalar guess; //, *result;
     PetscReal drts, rho, gamma;
     SNESConvergedReason reason;
     AppCtx params;
-    double startTimer, endTimer, residualNorm = 0.0;
+    double startTimer, endTimer;
     PetscMPIInt NumberProcesses, myRank, mySize;
 
     PetscInitialize(&argc, &argv, (char*) 0, help);
@@ -84,6 +84,7 @@ int main(int argc, char **argv)
     ierr = VecSetFromOptions(betas); CHKERRQ(ierr);
     ierr = VecDuplicate(betas, &xorigin); CHKERRQ(ierr);
     ierr = VecDuplicate(betas, &prices); CHKERRQ(ierr);
+    ierr = VecDuplicate(betas, &diff); CHKERRQ(ierr);
     ierr = VecGetOwnershipRange(betas, &StartIndex, &EndIndex); CHKERRQ(ierr);
     ierr = VecGetLocalSize(betas, &mySize); CHKERRQ(ierr);
 
@@ -141,17 +142,21 @@ int main(int argc, char **argv)
     params.prices = prices;
     params.beta = betas;
 
-/* #ifdef DEBUG */
-/*     VecSum(betas, &betaSum); */
-/*     PetscPrintf(PETSC_COMM_WORLD, " => betaSum: %f\n", betaSum); */
-/*     PetscPrintf(PETSC_COMM_WORLD, "betas: ------\n"); */
-/*     VecView(betas, PETSC_VIEWER_STDOUT_WORLD); */
-/*     PetscPrintf(PETSC_COMM_WORLD, "xorigin: ------\n"); */
-/*     VecView(xorigin, PETSC_VIEWER_STDOUT_WORLD); */
-/*     PetscPrintf(PETSC_COMM_WORLD, "Y: %f\n", params.Y); */
-/*     PetscPrintf(PETSC_COMM_WORLD, "prices: ------\n"); */
-/*     VecView(prices, PETSC_VIEWER_STDOUT_WORLD); */
-/* #endif */
+    VecSetValues(xorigin, 1, &n, &gamma, INSERT_VALUES);
+    ierr = VecAssemblyBegin(xorigin);
+    ierr = VecAssemblyEnd(xorigin);
+    
+#ifdef DEBUG
+    VecSum(betas, &betaSum);
+    PetscPrintf(PETSC_COMM_WORLD, " => betaSum: %f\n", betaSum);
+    PetscPrintf(PETSC_COMM_WORLD, "betas: ------\n");
+    VecView(betas, PETSC_VIEWER_STDOUT_WORLD);
+    PetscPrintf(PETSC_COMM_WORLD, "xorigin: ------\n");
+    VecView(xorigin, PETSC_VIEWER_STDOUT_WORLD);
+    PetscPrintf(PETSC_COMM_WORLD, "Y: %f\n", params.Y);
+    PetscPrintf(PETSC_COMM_WORLD, "prices: ------\n");
+    VecView(prices, PETSC_VIEWER_STDOUT_WORLD);
+#endif
 
     // ------------------------------
     //
@@ -220,36 +225,56 @@ int main(int argc, char **argv)
     
     endTimer = MPI_Wtime();
     
-/*     ierr  = VecGetArray(x, &result); CHKERRQ(ierr); */
-/*     for(int i = 0; i < n; i++) { */
+    /* ierr = VecGetArray(x, &result); CHKERRQ(ierr); */
+/*     ierr = VecGetArray(xorigin, &tmpVec); CHKERRQ(ierr); */
+/*     for(int i = StartIndex; i < EndIndex; i++) { */
+/*     /\* for(int i = 0; i < n; i++) { *\/ */
 /* #ifdef DEBUG */
 /*         ierr = PetscPrintf(PETSC_COMM_WORLD, */
 /*                            "%i: res = %f \torig = %f \tdiff = %f\n", */
-/*                            i, result[i], xvec[i], result[i] - xvec[i]); */
+/*                            i, result[i], tmpVec[i], result[i] - tmpVec[i]); */
 /*         CHKERRQ(ierr); */
 /* #endif */
-/*         residualNorm += abs(result[i] - xvec[i]); */
+/*         residualNorm += abs(result[i] - tmpVec[i]); */
 /*     } */
 /* #ifdef DEBUG */
 /*     ierr = PetscPrintf(PETSC_COMM_WORLD, "gamma = %f | %f\n", result[n], */
 /*                        gamma); */
 /*     CHKERRQ(ierr); */
 /* #endif */
-    
-/*     ierr = VecRestoreArray(x, &result); CHKERRQ(ierr); */
-/*     ierr = PetscPrintf(PETSC_COMM_WORLD, */
-/*                        "PETSc, %s, %f, %i, %D, %i, %f", */
-/*                        reason>0 ? "CONVERGED" : (char*) SNESConvergedReasons[reason], */
-/*                        residualNorm, */
-/*                        n, NumberIterations, NumberProcesses, */
-/*                        endTimer - startTimer); */
-/*     CHKERRQ(ierr); */
+    /* ierr = VecRestoreArray(x, &result); CHKERRQ(ierr); */
 
-/*     for(int i = 1; i < argc; i++) { */
-/*         PetscPrintf(PETSC_COMM_WORLD, ", %s", argv[i]); */
-/*     } */
-/*     PetscPrintf(PETSC_COMM_WORLD, "\n"); */
+
+#ifdef DEBUG
+    PetscPrintf(PETSC_COMM_WORLD, "xorigin: ------\n");
+    VecView(xorigin, PETSC_VIEWER_STDOUT_WORLD);
+    PetscPrintf(PETSC_COMM_WORLD, "x_result: ------\n");
+    VecView(x, PETSC_VIEWER_STDOUT_WORLD);
+#endif
+
+    VecAXPY(xorigin, -1, x);
     
+#ifdef DEBUG
+    PetscPrintf(PETSC_COMM_WORLD, "diff: ------\n");
+    VecView(xorigin, PETSC_VIEWER_STDOUT_WORLD);
+#endif
+
+    VecAbs(xorigin);
+    VecSum(xorigin, &residualNorm);
+
+    
+    ierr = PetscPrintf(PETSC_COMM_WORLD,
+                       "PETSc, parallel, %s, %f, %i, %D, %i, %f",
+                       reason>0 ? "CONVERGED" : (char*) SNESConvergedReasons[reason],
+                       residualNorm,
+                       n, NumberIterations, NumberProcesses,
+                       endTimer - startTimer);
+    CHKERRQ(ierr);
+
+    for(int i = 1; i < argc; i++) {
+        PetscPrintf(PETSC_COMM_WORLD, ", %s", argv[i]);
+    }
+    PetscPrintf(PETSC_COMM_WORLD, "\n");
     
     ierr = VecDestroy(&x); CHKERRQ(ierr);
     ierr = VecDestroy(&residual); CHKERRQ(ierr);

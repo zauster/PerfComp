@@ -27,6 +27,8 @@ PetscErrorCode ProdFunction(SNES snes, Vec x, Vec f, void *ctx)
     ierr = VecGetArrayRead(x,&xx); CHKERRQ(ierr);
     ierr = VecGetArray(f,&ff); CHKERRQ(ierr);
 
+    /* PetscPrintf(PETSC_COMM_WORLD, "xx: ------\n"); */
+    /* ierr = VecView(x, PETSC_VIEWER_STDOUT_WORLD); CHKERRQ(ierr); */
 
     //
     // TODO: replace with vector operations
@@ -47,7 +49,10 @@ PetscErrorCode ProdFunction(SNES snes, Vec x, Vec f, void *ctx)
     for(int i = 0; i < n; i++) {
         ff[i] = prices[i] + beta[i] * xx[i] * prodSum;    
     }
-  
+
+    /* PetscPrintf(PETSC_COMM_WORLD, " ----- ff ------\n"); */
+    /* VecView(f, PETSC_VIEWER_STDOUT_WORLD); */
+    
 
     /* Restore vectors */
     ierr = VecRestoreArrayRead(x,&xx); CHKERRQ(ierr);
