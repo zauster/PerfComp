@@ -141,17 +141,17 @@ int main(int argc, char **argv)
     params.prices = prices;
     params.beta = betas;
 
-#ifdef DEBUG
-    VecSum(betas, &betaSum);
-    PetscPrintf(PETSC_COMM_WORLD, " => betaSum: %f\n", betaSum);
-    PetscPrintf(PETSC_COMM_WORLD, "betas: ------\n");
-    VecView(betas, PETSC_VIEWER_STDOUT_WORLD);
-    PetscPrintf(PETSC_COMM_WORLD, "xorigin: ------\n");
-    VecView(xorigin, PETSC_VIEWER_STDOUT_WORLD);
-    PetscPrintf(PETSC_COMM_WORLD, "Y: %f\n", params.Y);
-    PetscPrintf(PETSC_COMM_WORLD, "prices: ------\n");
-    VecView(prices, PETSC_VIEWER_STDOUT_WORLD);
-#endif
+/* #ifdef DEBUG */
+/*     VecSum(betas, &betaSum); */
+/*     PetscPrintf(PETSC_COMM_WORLD, " => betaSum: %f\n", betaSum); */
+/*     PetscPrintf(PETSC_COMM_WORLD, "betas: ------\n"); */
+/*     VecView(betas, PETSC_VIEWER_STDOUT_WORLD); */
+/*     PetscPrintf(PETSC_COMM_WORLD, "xorigin: ------\n"); */
+/*     VecView(xorigin, PETSC_VIEWER_STDOUT_WORLD); */
+/*     PetscPrintf(PETSC_COMM_WORLD, "Y: %f\n", params.Y); */
+/*     PetscPrintf(PETSC_COMM_WORLD, "prices: ------\n"); */
+/*     VecView(prices, PETSC_VIEWER_STDOUT_WORLD); */
+/* #endif */
 
     // ------------------------------
     //
@@ -196,11 +196,11 @@ int main(int argc, char **argv)
     ierr = VecAssemblyBegin(residual);
     ierr = VecAssemblyEnd(residual);
 
-#ifdef DEBUG
-    PetscPrintf(PETSC_COMM_WORLD, "VecView: ------\n");
-    VecView(x, PETSC_VIEWER_STDOUT_WORLD);
-    VecView(residual, PETSC_VIEWER_STDOUT_WORLD);
-#endif
+/* #ifdef DEBUG */
+/*     PetscPrintf(PETSC_COMM_WORLD, "VecView: ------\n"); */
+/*     VecView(x, PETSC_VIEWER_STDOUT_WORLD); */
+/*     VecView(residual, PETSC_VIEWER_STDOUT_WORLD); */
+/* #endif */
 
     /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
        Customize nonlinear solver; set runtime options
