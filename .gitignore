@@ -2,3 +2,9 @@
 /README.html
 /README_cache/*
 /petsc/nls_eco_problem_parallel
+/petsc/GPATH
+/petsc/GRTAGS
+/petsc/GTAGS
+/petsc/test_fun.c
+/petsc/test_main
+/petsc/test_main.c

@@ -16,7 +16,7 @@ typedef struct {
     Vec prices;       /* industry good prices */
 } AppCtx;
 
-#define DEBUG
+/* #define DEBUG */
 
 #include "prodFunction_parallel.c"
 
@@ -25,10 +25,10 @@ typedef struct {
 int main(int argc, char **argv)
 {
     /* solution, residual vectors */
-    Vec x, residual;
+    Vec x, residual, lowerBound, upperBound;
 
     /* betas */
-    Vec betas, xorigin, prices, diff;
+    Vec betas, xorigin, prices;
     PetscScalar betaSum, prodSum, tmp, residualNorm;
 
     /* nonlinear solver context */
@@ -73,7 +73,10 @@ int main(int argc, char **argv)
     srand(123 * (myRank + 1));
     /* srand(time(NULL) * (myRank + 1)); */
 
+#ifdef DEBUG    
     PetscPrintf(PETSC_COMM_WORLD, " => betas\n");
+#endif
+    
 
     //
     // betas (in parallel)
@@ -84,7 +87,6 @@ int main(int argc, char **argv)
     ierr = VecSetFromOptions(betas); CHKERRQ(ierr);
     ierr = VecDuplicate(betas, &xorigin); CHKERRQ(ierr);
     ierr = VecDuplicate(betas, &prices); CHKERRQ(ierr);
-    ierr = VecDuplicate(betas, &diff); CHKERRQ(ierr);
     ierr = VecGetOwnershipRange(betas, &StartIndex, &EndIndex); CHKERRQ(ierr);
     ierr = VecGetLocalSize(betas, &mySize); CHKERRQ(ierr);
 
@@ -103,9 +105,9 @@ int main(int argc, char **argv)
         VecSetValues(prices, 1, &globalPos, &tmp, INSERT_VALUES);
     }
     // last element must be zero!
-    VecSetValues(betas, 1, &n, &zero, INSERT_VALUES);
-    VecSetValues(xorigin, 1, &n, &zero, INSERT_VALUES);
-    VecSetValues(prices, 1, &n, &zero, INSERT_VALUES);
+    ierr = VecSetValues(betas, 1, &n, &zero, INSERT_VALUES); CHKERRQ(ierr);
+    ierr = VecSetValues(xorigin, 1, &n, &zero, INSERT_VALUES); CHKERRQ(ierr);
+    ierr = VecSetValues(prices, 1, &n, &zero, INSERT_VALUES); CHKERRQ(ierr);
     
     ierr = VecAssemblyBegin(betas);
     ierr = VecAssemblyEnd(betas);
@@ -210,18 +212,22 @@ int main(int argc, char **argv)
     /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
        Customize nonlinear solver; set runtime options
        - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
+#ifdef DEBUG
     PetscPrintf(PETSC_COMM_WORLD, " -----------------------\n");
     PetscPrintf(PETSC_COMM_WORLD, " => Starting solving ...\n");
+#endif
     ierr = SNESSetFunction(snes, residual, ProdFunction, &params);
     CHKERRQ(ierr);
-    ierr = SNESSetFromOptions(snes); CHKERRQ(ierr);
+    ierr = SNESSetFromOptions(snes); CHKERRQ(ierr); 
 
     ierr = SNESSolve(snes, NULL, x); CHKERRQ(ierr);
     ierr = SNESGetIterationNumber(snes, &NumberIterations); CHKERRQ(ierr);
     ierr = SNESGetConvergedReason(snes, &reason); CHKERRQ(ierr);
 
+#ifdef DEBUG    
     PetscPrintf(PETSC_COMM_WORLD, " -----------------------\n");
     PetscPrintf(PETSC_COMM_WORLD, " => Finished solving ...\n");
+#endif
     
     endTimer = MPI_Wtime();
     
@@ -264,7 +270,7 @@ int main(int argc, char **argv)
 
     
     ierr = PetscPrintf(PETSC_COMM_WORLD,
-                       "PETSc, parallel, %s, %f, %i, %D, %i, %f",
+                       "PETSc, parallel, %s, %f, %i, %D, %i, %f, ",
                        reason>0 ? "CONVERGED" : (char*) SNESConvergedReasons[reason],
                        residualNorm,
                        n, NumberIterations, NumberProcesses,
@@ -272,7 +278,7 @@ int main(int argc, char **argv)
     CHKERRQ(ierr);
 
     for(int i = 1; i < argc; i++) {
-        PetscPrintf(PETSC_COMM_WORLD, ", %s", argv[i]);
+        PetscPrintf(PETSC_COMM_WORLD, " %s |", argv[i]);
     }
     PetscPrintf(PETSC_COMM_WORLD, "\n");
     

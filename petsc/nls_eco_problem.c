@@ -14,7 +14,7 @@ typedef struct {
     PetscReal *prices;       /* industry good prices */
 } AppCtx;
 
-#define DEBUG
+/* #define DEBUG */
 
 #include "prodFunction.c"
 
@@ -142,7 +142,9 @@ int main(int argc, char **argv)
     /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
        Customize nonlinear solver; set runtime options
        - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
+#ifdef DEBUG
     printf(" => Start solving ...\n");
+#endif
     ierr = SNESSetFromOptions(snes); CHKERRQ(ierr);
     ierr = SNESSolve(snes, NULL, x); CHKERRQ(ierr);
   
@@ -151,7 +153,9 @@ int main(int argc, char **argv)
     ierr = SNESGetConvergedReason(snes, &reason); CHKERRQ(ierr);
 
     endTimer = MPI_Wtime();
+#ifdef DEBUG
     printf(" => Finished!\n");
+#endif
     
     double residualNorm = 0.0;
     ierr  = VecGetArray(x, &result); CHKERRQ(ierr);
@@ -172,7 +176,7 @@ int main(int argc, char **argv)
     
     ierr  = VecRestoreArray(x,&result); CHKERRQ(ierr);
     ierr = PetscPrintf(PETSC_COMM_WORLD,
-                       "PETSc, serial, %s, %f, %i, %D, %i, %f",
+                       "PETSc, serial, %s, %f, %i, %D, %i, %f,",
                        reason>0 ? "CONVERGED" : (char*) SNESConvergedReasons[reason],
                        residualNorm,
                        n, NumberIterations, NumberProcesses,
@@ -180,7 +184,7 @@ int main(int argc, char **argv)
     CHKERRQ(ierr);
 
     for(int i = 1; i < argc; i++) {
-        printf(", %s", argv[i]);
+        printf(" %s |", argv[i]);
     }
     printf("\n");
 

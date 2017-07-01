@@ -13,9 +13,11 @@ PetscErrorCode ProdFunction(SNES snes, Vec x, Vec f, void *ctx)
     const PetscScalar *xx;
     PetscScalar *ggamma;
     PetscReal rho, drts, Y, prodSum, temp_gamma, calc_gamma;
-    PetscInt n;
+    /* PetscInt n; */
     PetscMPIInt myRank;
     PetscInt mySize, NumberProcesses;
+
+    temp_gamma = 1;
     
 
     MPI_Comm_rank(PETSC_COMM_WORLD, &myRank);
@@ -25,7 +27,7 @@ PetscErrorCode ProdFunction(SNES snes, Vec x, Vec f, void *ctx)
     rho = params->rho;
     drts = params->drts;
     Y = params->Y;
-    n = params->n;
+    /* n = params->n; */
     // temp_gamma = 11.0;
 
     PetscInt xStartIndex, xEndIndex;
