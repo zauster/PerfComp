@@ -24,25 +24,37 @@ Equilibrium) Model in economics.
 
 ```{r readin, results='hide', message=FALSE, echo=FALSE}
 pcres <- fread("PerfComp_results.csv", fill = TRUE)
-pcres.names <- c("Program", "Convergence", "Residual", "Problemsize",
-                 "Iterations", "NumberProcesses", "Duration")
-setnames(pcres, paste0("V", 1:7), pcres.names)
-pcres[Program == "PETSc", Program := paste0(Program, "_", V14)]
-pcres <- pcres[Residual < 0.001, pcres.names, with = FALSE]
+pcres.names <- c("Program", "Mode", "Convergence", "Residual", "Problemsize",
+                 "Iterations", "NumberProcesses", "Duration", "Options")
+setnames(pcres, names(pcres), pcres.names)
+pcres[, NumberProcesses := as.factor(NumberProcesses)]
+
+pcres[, Solver := str_extract(Options, "newton..")]
+
+pcres[, Options := NULL]
+## View(pcres[Residual < 0.01, ])
+## pcres <- pcres[Residual < 0.01, ]
 
 pcres.mean <- pcres[, lapply(.SD, mean),
-                    by = .(Program, Problemsize, NumberProcesses),
+                    by = .(Program, Mode, Problemsize, NumberProcesses,
+                           Solver),
                     .SDcols = c("Duration", "Residual", "Iterations")]
 ```
 
 ```{r firstPlot, echo=FALSE, message=FALSE, results='hide', fig.width=8.5, fig.height=6}
 p <- ggplot(pcres.mean, aes(x = Problemsize, y = Duration))
-p <- p + geom_line(aes(colour = Program), size = 1)
+p <- p + geom_line(aes(colour = NumberProcesses, lineType = Solver),
+                   size = 1)
 p <- p + geom_label_repel(data = pcres.mean[Problemsize == 3000, ],
-                          aes(label = Program), #fill = Program),
+                          aes(label = Solver), #fill = Program),
                               fontface = "bold",
-                              color = "black")
+                          color = "black")
+p <- p + scale_x_continuous(breaks = pcres.mean[, unique(Problemsize)])
 p <- p + ggtitle("Performance of different software implementations")
 p <- p + theme(legend.position = "bottom")
 p
 ```
+
+With $n = 4000$, the parallel version has trouble to find the right
+step-size (with the Newton line search solver), but the Newton trust
+region solver is slightly faster.
