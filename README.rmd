@@ -30,6 +30,8 @@ setnames(pcres, names(pcres), pcres.names)
 pcres[, NumberProcesses := as.factor(NumberProcesses)]
 
 pcres[, Solver := str_extract(Options, "newton..")]
+pcres[Solver == "newtonls", Solver := "Newton (LineSearch)"]
+pcres[Solver == "newtontr", Solver := "Newton (TrustRegion)"]
 
 pcres[, Options := NULL]
 ## View(pcres[Residual < 0.01, ])
@@ -43,7 +45,7 @@ pcres.mean <- pcres[, lapply(.SD, mean),
 
 ```{r firstPlot, echo=FALSE, message=FALSE, results='hide', fig.width=8.5, fig.height=6}
 p <- ggplot(pcres.mean, aes(x = Problemsize, y = Duration))
-p <- p + geom_line(aes(colour = NumberProcesses, lineType = Solver),
+p <- p + geom_line(aes(colour = Mode, linetype = Solver),
                    size = 1)
 p <- p + geom_label_repel(data = pcres.mean[Problemsize == 3000, ],
                           aes(label = Solver), #fill = Program),
@@ -55,6 +57,6 @@ p <- p + theme(legend.position = "bottom")
 p
 ```
 
-With $n = 4000$, the parallel version has trouble to find the right
+With $n = 3000$, the parallel version has trouble to find the right
 step-size (with the Newton line search solver), but the Newton trust
 region solver is slightly faster.

@@ -7,10 +7,12 @@ OPTIONS2="-snes_max_it 10000"
 OPTIONS="$OPTIONS1 $OPTIONS2"
 NPROC=1
 
-for iter in 1 #2 3 #4 5
+for iter in 1 2 3 #4 5
 do
-    for DIM in 100 1000 2000 3000 4000 5000 6000 7000 8000 9000 10000
+    for DIM in 100 {500..10000..500}
     do
+        # echo "$DIM"
+        
         # Serial PETSc
         mpiexec -n $NPROC ./$PETSC_SERIAL $OPTIONS -snes_type newtonls -m $DIM
         mpiexec -n $NPROC ./$PETSC_SERIAL $OPTIONS -snes_type newtontr -m $DIM
