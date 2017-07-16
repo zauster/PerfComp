@@ -12,3 +12,6 @@
 /trilinos/GPATH
 /trilinos/GRTAGS
 /trilinos/GTAGS
+/trilinos/1Dfem.cpp
+/trilinos/1DfemInterface.hpp
+/trilinos/nls_eco_problem

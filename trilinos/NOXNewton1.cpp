@@ -198,7 +198,7 @@ main (int argc, char **argv)
         //
         ParameterList& printParams = params->sublist ("Printing");
         printParams.set ("MyPID", Comm.MyPID ()); 
-        printParams.set ("Output Precision", 3);
+        printParams.set ("Output Precision", 8);
         printParams.set ("Output Processor", 0);
 
         // Set verbose=true to see a whole lot of intermediate status
@@ -244,7 +244,7 @@ main (int argc, char **argv)
         // 50 iterations, and Aztec's native ILU preconditioner.
         lsParams.set ("Aztec Solver", "GMRES");  
         lsParams.set ("Max Iterations", 800);  
-        lsParams.set ("Tolerance", 1e-4);
+        lsParams.set ("Tolerance", 1e-6);
         lsParams.set ("Output Frequency", 50);    
         lsParams.set ("Aztec Preconditioner", "ilu"); 
 
@@ -277,7 +277,8 @@ main (int argc, char **argv)
 
         RCP<NOX::Epetra::LinearSystemAztecOO> linSys = 
             rcp (new NOX::Epetra::LinearSystemAztecOO (printParams, lsParams,
-                                                       iReq, iJac, A, InitialGuess));
+                                                       iReq, iJac, A,
+                                                       InitialGuess));
 
         // Need a NOX::Epetra::Vector for constructor.
         NOX::Epetra::Vector noxInitGuess (InitialGuess, NOX::DeepCopy);
@@ -295,7 +296,7 @@ main (int argc, char **argv)
         // or not scaling by the length of F(X), and choosing a
         // different norm (we use the 2-norm here).
         RCP<NOX::StatusTest::NormF> testNormF = 
-            rcp (new NOX::StatusTest::NormF (1.0e-4));
+            rcp (new NOX::StatusTest::NormF (1.0e-8));
 
         // At most 20 (nonlinear) iterations.
         RCP<NOX::StatusTest::MaxIters> testMaxIters = 

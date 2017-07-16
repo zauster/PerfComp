@@ -65,13 +65,14 @@ int main(int argc, char **argv)
     params.n = n;
     params.NumberProcesses = NumberProcesses;
 
-    gamma = (double) ((rand() % 40) + 100) / 100.0;
-    /* printf("%i: gamma = %f", myRank, gamma); */
 
     /* initialize random seed: */
     /* srand(12345678); */
     srand(123 * (myRank + 1));
     /* srand(time(NULL) * (myRank + 1)); */
+
+    gamma = (double) ((rand() % 40) + 100) / 100.0;
+    /* printf("%i: gamma = %f", myRank, gamma); */
 
 #ifdef DEBUG    
     PetscPrintf(PETSC_COMM_WORLD, " => betas\n");
