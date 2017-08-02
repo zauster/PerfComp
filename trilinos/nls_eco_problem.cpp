@@ -48,20 +48,34 @@ class ProductionFunction : public NOX::Epetra::Interface::Required
 public:
 
     // Constructor
-    ProductionFunction (Epetra_Vector& InitialGuess) : InitialGuess_ (new Epetra_Vector (InitialGuess))
-        {
-        }
+    ProductionFunction (Epetra_Vector& InitialGuess_,
+                        Epetra_Vector& prices_,
+                        Epetra_Vector& betas_,
+                        double& rho_,
+                        double& gamma_,
+                        double& drts_,
+                        double& Y_) :
+        InitialGuess (new Epetra_Vector (InitialGuess_)),
+        prices (new Epetra_Vector (prices_)),
+        betas (new Epetra_Vector (betas_)),
+        rho (rho_),
+        gamma (gamma_),
+        drts (drts_),
+        Y (Y_)
+        {}
 
     // Destructor
     ~ProductionFunction() {}
 
 
-    //
-    //
     bool computeF (const Epetra_Vector& input,
                    Epetra_Vector& output,
                    NOX::Epetra::Interface::Required::FillType F)
         {
+            int NumMyElements = InitialGuess->Map().NumMyElements();
+            int* MyGlobalElements = InitialGuess->Map().MyGlobalElements();
+            
+            std::cout << "rho:" << rho;
             return true;
         };
 
@@ -95,7 +109,11 @@ public:
 
 private:
 
-    Teuchos::RCP<Epetra_Vector> InitialGuess_;
+    Teuchos::RCP<Epetra_Vector> InitialGuess;
+    Teuchos::RCP<Epetra_Vector> prices;
+    Teuchos::RCP<Epetra_Vector> betas;
+
+    double rho, gamma, drts, Y;
     // Teuchos::RCP<NOX::Epetra::MatrixFree> MF;
 };
 
@@ -171,7 +189,7 @@ int main(int argc, char **argv)
     betas.Scale(1 / betaSum);
 
     if (myPID == 0) {
-        std::cout << "Betas: " << betaSum << std::endl;
+    std::cout << "Betasum on  " << myPID << ": " << betaSum << std::endl;
     }
     std::cout << betas << std::endl;
 
@@ -222,17 +240,100 @@ int main(int argc, char **argv)
 
     // TODO: start timer
 
-    // TODO: instantiate interface
+
+    // instantiate ParameterLists
+    // Create the top-level parameter list to control NOX.
+    // "parameterList" (lowercase initial "p") is a "nonmember
+    // constructor" that returns an RCP<ParameterList> with the
+    // given name.
+    RCP<ParameterList> params = parameterList ("NOX");
+
+    // Tell the nonlinear solver to use line search.
+    params->set("Nonlinear Solver", "Line Search Based");
+
+    //
+    // Set the printing parameters in the "Printing" sublist.
+    //
+    ParameterList& printParams = params->sublist("Printing");
+    printParams.set ("MyPID", CommWorld.MyPID()); 
+    printParams.set ("Output Precision", 3);
+    printParams.set ("Output Processor", 0);
+    printParams.set ("Output Information", 
+                     NOX::Utils::OuterIteration + 
+                     NOX::Utils::OuterIterationStatusTest + 
+                     NOX::Utils::InnerIteration +
+                     NOX::Utils::Parameters + 
+                     NOX::Utils::Details + 
+                     NOX::Utils::Warning);
+
+    //
+    // Set the nonlinear solver parameters.
+    //
+
+    // Line search parameters.
+    ParameterList& searchParams = params->sublist("Line Search");
+    searchParams.set ("Method", "More'-Thuente");
+
+    // Parameters for picking the search direction.
+    Teuchos::ParameterList& dirParams = params->sublist("Direction");
+    // Use Newton's method to pick the search direction.
+    dirParams.set ("Method", "Newton");
+
+    // Parameters for Newton's method.
+    ParameterList& newtonParams = dirParams.sublist("Newton");
+    newtonParams.set ("Forcing Term Method", "Constant");
+  
+    //
+    // Newton's method invokes a linear solver repeatedly.
+    // Set the parameters for the linear solver.
+    //
+    ParameterList& lsParams = newtonParams.sublist("Linear Solver");
+
+    // Use Aztec's implementation of GMRES, with at most 800 iterations,
+    // a residual tolerance of 1.0e-4, with output every 50 iterations,
+    // and Aztec's native ILU preconditioner.
+    lsParams.set("Aztec Solver", "GMRES");  
+    lsParams.set("Max Iterations", 800);  
+    lsParams.set("Tolerance", 1e-4);
+    lsParams.set("Output Frequency", 50);    
+    lsParams.set("Aztec Preconditioner", "ilu"); 
+
+
+    
     RCP<ProductionFunction> prodFunction =
-        rcp(new ProductionFunction (xguess));
-    // TODO: instantiate matrix-free jacobian
-    // TODO: instantiate ParameterLists
-
-
+        rcp(new ProductionFunction (xguess, prices, betas,
+                                    rho, gamma, drts, Y));
     
-    RCP<Nox::Epetra::Interface::Required> iReq = prodFunction;
+    RCP<NOX::Epetra::Interface::Required> iReq = prodFunction;
+    // RCP<NOX::Epetra::MatrixFree> mfJac = MatrixFree(printParams,
+    //                                                 prodFunction,
+    //                                                 xguess,
+    //                                                 false);
     
+    RCP<NOX::Epetra::Group> group = 
+        rcp (new NOX::Epetra::Group (printParams, iReq, xguess));
 
+    RCP<NOX::StatusTest::NormF> testNormF = 
+        rcp (new NOX::StatusTest::NormF (1.0e-8));
+
+    // At most 20 (nonlinear) iterations.
+    RCP<NOX::StatusTest::MaxIters> testMaxIters = 
+        rcp (new NOX::StatusTest::MaxIters (20));
+
+    // Combine the above two stopping criteria (normwise
+    // convergence, and maximum number of nonlinear iterations).
+    // The result tells NOX to stop if at least one of them is
+    // satisfied.
+    RCP<NOX::StatusTest::Combo> combo = 
+        rcp (new NOX::StatusTest::Combo (NOX::StatusTest::Combo::OR, 
+                                         testNormF, testMaxIters));
+    
+    // Create the NOX nonlinear solver.
+    RCP<NOX::Solver::Generic> solver = 
+        NOX::Solver::buildSolver (group, combo, params);
+
+    // Solve the nonlinear system.
+    NOX::StatusTest::StatusType status = solver->solve();
 
 
     
